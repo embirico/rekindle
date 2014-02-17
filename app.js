@@ -29,11 +29,8 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('Rekindle secret key'));
 app.use(express.session());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Less middleware
 app.use(lessMiddleware({
-    src: __dirname + "/less",
+    src: __dirname + "/less/custom",
     dest: __dirname + "/public/css",
     // if you're using a different src/dest directory, you
     // MUST include the prefex, which matches the dest
@@ -44,6 +41,8 @@ app.use(lessMiddleware({
     // through changes
     force: true
 }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // development only
 if ('development' == app.get('env')) {
