@@ -1,3 +1,11 @@
+# General ---------------------------------------
+*.DS_Store
+
+# We can ignore css as node will compile css from less
+public/css/*
+
+# Github node default ignores -------------------
+
 lib-cov
 *.seed
 *.log

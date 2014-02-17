@@ -1,0 +1,22 @@
+{
+  "name": "static-rekindle",
+  "version": "0.0.1",
+  "author": "Justin Womersley, Nicole Zhu, Alexander Embiricos",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/embirico/static-rekindle"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "express3-handlebars": "*",
+    "less-middleware": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
