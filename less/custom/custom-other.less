@@ -183,17 +183,15 @@ body {
       }
 
       .queue {
-
+        padding: 0 14px;
         height: @iphone5-height - @navbar-height;
         overflow: scroll;
 
         li.media {
-          padding: @queue-card-vert-spacing/2 18px;
+          margin: 0;
+          padding: @queue-card-vert-spacing 6px;
+          border-bottom: 1px solid fade(@sidebar-color, 50%);
         }
-        li.media:first-child {
-          padding-top: 16px;
-        }
-
         img {
           width: @queue-card-height;
         }
