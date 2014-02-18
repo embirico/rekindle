@@ -83,6 +83,10 @@ body {
   overflow-x: hidden;
 }
 
+body {
+  min-height: @iphone5-height;
+}
+
 /*first child of #page-content so it doesn't shift around*/
 .no-margin-top {
     margin-top: 0px!important
@@ -105,7 +109,7 @@ body {
     margin: 0;
     width: 30px;
     height: 40px;
-    padding: 10px 0 0 0;
+    padding: 12px 0 0 0;
     border: 0;
     background: transparent;
 }
@@ -126,102 +130,106 @@ body {
 /* screw writing importants and shit, just stick it in max width since these classes are not shared between sizes */
 /* ^ Alex didn't write that */
 @media (max-width:767px) {
-  #slide-nav .container {
+  #slide-nav {
+    border-top: 0;
+
+    .container {
       margin: 0;
       padding: 0!important;
-  }
-  #slide-nav .navbar-header {
+    }
+    .navbar-header {
       margin: 0 auto;
       padding: 0 15px;
-  }
-  #slide-nav .navbar.slide-active {
+    }
+    .navbar.slide-active {
       position: absolute;
       width: 80%;
       top: -1px;
       z-index: 1000;
-  }
-  #slide-nav #sidebar-left {
-      background: #f7f7f7;
-      left: -100%;
+    }
+    .sidebar {
+      background: @sidebar-bg;
       width: 80%;
       min-width: 0;
       position: absolute;
       padding-left: 0;
       z-index: 2;
-      top: -8px;
+      // top: -14px;
       margin: 0;
-  }
-  #slide-nav #sidebar-left .navbar-nav {
-      min-width: 0;
-      width: 100%;
-      margin: 0;
-  }
-  #slide-nav #sidebar-left .navbar-nav .dropdown-menu li a {
-      min-width: 0;
-      width: 80%;
-      white-space: normal;
-  }
+      color: @sidebar-color;
 
+      a, a:hover {
+        color: @sidebar-color;
+      }
 
-  #slide-nav #sidebar-right {
-      background: #f7f7f7;
-      left: 100%;
-      width: 80%;
-      min-width: 0;
-      position: absolute;
-      padding-left: 0;
-      z-index: 2;
+      .navbar-nav {
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+      }
+    }
+    #sidebar-left {
       top: -14px;
-      margin: 0;
-  }
-  #slide-nav #sidebar-right .navbar-nav {
-      min-width: 0;
-      width: 100%;
-      margin: 0;
-  }
-  #slide-nav #sidebar-right .navbar-nav .dropdown-menu li a {
-      min-width: 0;
-      width: 80%;
-      white-space: normal;
-  }
+      left: -100%;
+    }
+    #sidebar-right {
+      top: 0;
+      left: 100%;
 
-  #slide-nav {
-      border-top: 0
-  }
-  /* this is behind the navigation but the navigation is not inside it so that the navigation is accessible and scrolls*/
-  #slide-nav #navbar-height-col {
+      .queue-title {
+        padding: 5px 0;
+        text-align: center;
+        border-bottom: 1px solid @sidebar-color;
+      }
+
+      .queue {
+
+        height: @iphone5-height - @navbar-height;
+        overflow: scroll;
+
+        li.media {
+          padding: @queue-card-vert-spacing/2 18px;
+        }
+        li.media:first-child {
+          padding-top: 16px;
+        }
+
+        img {
+          width: @queue-card-height;
+        }
+
+        .media-body {
+          line-height: @queue-card-height;
+          height: @queue-card-height;
+        }
+      }
+
+    }
+    /* this is behind the navigation but the navigation is not inside it so that the navigation is accessible and scrolls*/
+    #navbar-height-col {
       position: fixed;
       top: 0;
       height: 100%;
       width: 80%;
       left: -80%;
-      background: #eee;
-  }
-  #slide-nav #navbar-height-col-right {
-      position: fixed;
-      top: 0;
-      height: 100%;
-      width: 80%;
-      left: 100%;
-      background: #eee;
-  }
-  #slide-nav.navbar-inverse #navbar-height-col {
+      z-index: 0;
+      background: @sidebar-bg;
+    }
+    #slide-nav.navbar-default #navbar-height-col {
       background: #333;
       z-index: 1;
       border: 0;
-  }
-  #slide-nav .navbar-form {
+    }
+    .navbar-form {
       width: 100%;
       margin: 8px 0;
       text-align: center;
       overflow: hidden;
       /*fast clearfixer*/
-  }
-  #slide-nav .navbar-form .form-control {
+    }
+    .navbar-form .form-control {
       text-align: center
-  }
-  #slide-nav .navbar-form .btn {
-      width: 100%
+    }
   }
 }
 @media (min-width:768px) {
