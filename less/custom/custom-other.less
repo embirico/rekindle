@@ -192,12 +192,13 @@ body {
           padding: @queue-card-vert-spacing 6px;
           border-bottom: 1px solid fade(@sidebar-color, 50%);
         }
+
         img {
           width: @queue-card-height;
         }
 
         .media-body {
-          line-height: @queue-card-height;
+          line-height: @queue-card-height; // TODO let overflow go to 2 lines
           height: @queue-card-height;
         }
       }
