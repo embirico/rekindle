@@ -1,3 +1,71 @@
+//== General
+//
+//##
+
 body {
 	padding-top: 70px;
+}
+
+
+//== Navbar
+//
+//##
+
+.navbar-toggle {
+  float: left;
+  margin-left: @navbar-padding-horizontal;
+  padding: 9px 0;
+}
+
+.navbar-toggle-right {
+  position: relative;
+  float: right;
+  margin-top: .9*@navbar-padding-vertical;
+  margin-right: @navbar-padding-horizontal;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  background-color: @navbar-default-link-color;
+  color: @navbar-default-bg;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  border-radius: @border-radius-base;
+
+  // We remove the `outline` here, but later compensate by attaching `:hover`
+  // styles to `:focus`.
+  &:focus {
+    outline: none;
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    display: none;
+  }
+}
+
+.navbar-default {
+	.navbar-toggle {
+		&:hover,
+		&:focus {
+			.icon-bar {
+				background-color: @navbar-default-toggle-hover-icon-bar-bg;
+			}
+		}
+	}
+	.navbar-toggle-right {
+		&:hover,
+		&:focus {
+			color: @navbar-default-bg;
+			background-color: @navbar-default-link-hover-color;
+			border: 1px solid transparent;
+		}
+	}
+}
+
+.navbar-brand {
+	font-weight: bold;
+	position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  margin: auto;
 }
