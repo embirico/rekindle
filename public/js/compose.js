@@ -13,6 +13,9 @@ function activateComposeView(e) {
 	if (textarea.hasClass('compose-active')) {
 		return // already in compose view
 	}
+	else {
+		//textarea.blur();
+	}
 
 	textarea.addClass('compose-active');
 
@@ -23,8 +26,8 @@ function activateComposeView(e) {
 
 	// IDEALLY I WANT TO GROW THE TEXTBOX, BUT THERE ISN'T MUCH SPACE ON THE
 	// IPHONE 5
-		// textarea.animate({height: '170px'});
-		// textarea.animate({height: '73px'});
+	// textarea.animate({height: '170px'});
+	// textarea.animate({height: '73px'});
 
 	// OK SO HAVING SOME ISSUES WITH HAVING TO SCROLL UP MANUALLY ON THE IPHONE
 	// AFTER THE RESIZE. (WORKS FINE IN CHROME EMULATOR)
@@ -34,8 +37,13 @@ function activateComposeView(e) {
 		window.scrollTo(0, 0);
 	}, ANIMATION_SPEED);
 
+	/*setTimeout(function() {
+		textarea.trigger("click");
+		console.log("focus");
+	}, 800);*/
+
 	// THIS WAS ANOTHER WAY THAT I THOUGHT TO DO IT, BUT IT DOESN'T WORK
-		// $('html, body').delay(1000).scrollTop();
+	// $('html, body').delay(1000).scrollTop();
 }
 
 function deactivateComposeView(e) {

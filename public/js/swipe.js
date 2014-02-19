@@ -11,10 +11,22 @@ var new_card_panel;
 var card_html;
 var time_interval;
 
+$( window ).resize(function() {
+	var height = $(window).height();
+	console.log(height);
+	var image_height = height - 243;
+	$(".swipe-card-img").css("height", image_height);
+});
+
 /*
  * Function that is called when the document is ready.
  */
 function initializePage() {
+
+	var height = $(window).height();
+	console.log(height);
+	var image_height = height - 243;
+	$(".swipe-card-img").css("height", image_height);
 
 	var minThresh = 10;
 
