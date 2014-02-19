@@ -38,7 +38,8 @@ function initializePage() {
           		if (phase == "end") full_left();
           	}
           	else if(direction=="right") {
-				full_right();
+          		$("#card_container .top-card .card").addClass("animate-like ng-leave ng-leave-active");
+				if (phase == "end") full_right();
           	}
           }
         },
@@ -63,19 +64,19 @@ function initialize_first_card() {
 
 	//show bottom card
 	var sibling_card = new_card.next();
-	var next_card_number = sibling_card.attr("data-id");
+	var next_card_number = sibling_card.find(".panel").attr("data-id");
 	var next_card = $(".card-" + next_card_number);
 	next_card.css("display","block");
 }
 
 function reset_card() {
 	// TODO, animate this
-	$("#card_container .card").removeClass("animate-partial animate-dislike-partial animate-like-partial");
+	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial animate-like-partial");
 }
 
 function partial_right() {
-	$("#card_container .card").removeClass("animate-partial animate-dislike-partial");
-	$("#card_container .card").addClass("animate-partial animate-like-partial");
+	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial");
+	$("#card_container .top-card .card").addClass("animate-partial animate-like-partial");
 }
 
 function partial_left() {
@@ -90,7 +91,6 @@ function full_left() {
 
 /*brings up message modal, new card*/
 function full_right() {
-	$("#card_container .card").addClass("animate-like ng-leave ng-leave-active");
 	time_interval = setInterval(loadNewCard, 100);
 	// TODO, load next card
 }
