@@ -1,21 +1,23 @@
-<div class="panel panel-default swipe-card">
-	<div class="panel-body">
-		<!-- Provide background image url as a style for swipe-card-img. -->
-		<!-- This allows use of non-square images with proper scaling. -->
-		<!-- We can use img if the server guarantees square images. -->
-		<div class="swipe-card-img"
-			style="background-image: url('/images/greg.jpg');">
-		</div>
-		<div class="swipe-card-info">
-			<div class="top-line">
-				<h4>Greg Jacobs</h4>
-				<a href="#profile">View more</a>
+<div class="card-{{id}} bottom-card" style="display: none">
+	<div class="panel panel-default swipe-card card card-panel-{{id}}" data-id="{{id}}">
+		<div class="panel-body">
+			<!-- Provide background image url as a style for swipe-card-img. -->
+			<!-- This allows use of non-square images with proper scaling. -->
+			<!-- We can use img if the server guarantees square images. -->
+			<div class="swipe-card-img"
+				style="background-image: url('{{image}}');">
 			</div>
-			<p><i class="fa fa-map-marker fa-fw"></i> Austin TX</p>
-			<p><i class="fa fa-asterisk fa-fw"></i> New job at Dropbox.</p>
-		</div>
-		<div class="swipe-card-input">
-			<textarea class="form-control" rows="2" placeholder="Send Greg a message"></textarea>
+			<div class="swipe-card-info">
+				<div class="top-line">
+					<h4>{{firstname}} {{lastname}}</h4>
+					<a href="#profile">View more</a>
+				</div>
+				<p><i class="fa fa-map-marker fa-fw"></i> {{location}}</p>
+				<p><i class="fa fa-asterisk fa-fw"></i> {{milestone}}</p>
+			</div>
+			<div class="swipe-card-input">
+				<textarea class="form-control" rows="2" placeholder="Send {{firstname}} a message"></textarea>
+			</div>
 		</div>
 	</div>
 </div>

@@ -2,11 +2,13 @@
 
 <div id="page-content">
 
-  <div class="container" >
-
-  	{{> swipe-card}}
-
+  <div class="container" id="card_container">
+  	{{#each candidates}}
+  		{{> swipe-card}}
+  	{{/each}}
   </div>
 
 </div>
+<script src="js/jquery.touchSwipe.js"></script>
 <script src="js/compose.js"></script>
+<script src="js/swipe.js"></script>
