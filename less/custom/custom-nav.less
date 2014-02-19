@@ -177,8 +177,13 @@ body {
       }
     }
     #sidebar-left {
-      top: -14px;
+      top: 0;
       left: -100%;
+
+      .navbar-form {
+        margin-top: 0;
+        border-top: 0;
+      }
     }
     #sidebar-right {
       top: 0;
@@ -235,7 +240,12 @@ body {
       /*fast clearfixer*/
     }
     .navbar-form .form-control {
+      height: 30px;
       text-align: center
+    }
+
+    .navbar-form .btn-default {
+      height: 16px + 12px + 2px;
     }
   }
 }
