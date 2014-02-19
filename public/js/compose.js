@@ -33,5 +33,11 @@ function activateComposeView(e) {
 		// $('html, body').delay(1000).scrollTop();
 }
 
-// when message:
-// change nav functionality
+function deactivateComposeView(e) {
+	textarea.removeClass('compose-active');
+
+	swipeCardImg = $('.swipe-card-img');
+	swipeCardImg.animate({
+		height: swipeCardImg.width()
+	}, ANIMATION_SPEED);
+}
