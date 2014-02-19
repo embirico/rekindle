@@ -4,8 +4,8 @@
       <h4>People you want to contact</h4>
     </div>
     <div class="queue">
-      <ul class="media-list">
-        {{#each queue_results}}
+      <ul class="media-list" id="friendList">
+        {{#each queue}}
           {{> queue-card}}
         {{/each}}
       </ul>

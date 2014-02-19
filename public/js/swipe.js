@@ -94,13 +94,73 @@ function partialLeft() {
 
 /*clears current card, generates new card*/
 function fullLeft() {
+	// Remove this card from candidates_json array
+	var swipedCard;
+	var swipedIndex = -1;
+	$.each(candidatesJSON, function(index, candidate) {
+                if(candidate.id == currentCard.attr("data-id")) {
+                	swipedCard = candidate;
+                	swipedIndex = index;
+                }
+            });
+	candidatesJSON.splice(swipedIndex,1);
+
+	// TODO, push this action to the server via AJAX
+
 	time_interval = setInterval(loadNewCard, 100);
 }
 
 /*brings up message modal, new card*/
 function fullRight() {
+	// Remove this card from candidates_json array
+	var swipedCard;
+	var swipedIndex = -1;
+	$.each(candidatesJSON, function(index, candidate) {
+                if(candidate.id == currentCard.attr("data-id")) {
+                	swipedCard = candidate;
+                	swipedIndex = index;
+                }
+            });
+	candidatesJSON.splice(swipedIndex,1);
+
+	// TODO, push this action to the server via AJAX
+
+	// Add the person to the queue_json
+	queueJSON.push(swipedCard);
+	renderQueue();
+
 	time_interval = setInterval(loadNewCard, 100);
 	// TODO, load next card
+}
+
+// Using the queueJSON array, rebuilts the queue
+function renderQueue() {
+	$("#queueIndicator").text(queueJSON.length);
+	$("#queueIndicator").animate({
+		opacity: "0.5"
+	}, 100, function() {
+		$(this).animate({
+			opacity: "1"
+		}, 100);
+	}
+	);
+
+	// TODO, render out the list of people in the queue
+	var queueHtml = '';
+	$.each(queueJSON, function(index, friend) {
+		queueHtml = queueHtml + '<li class="media">'+
+		  '<a href="#">'+
+			  '<div class="media">'+
+		      '<div class="pull-left media-object queue-card-img img-circle" style="background-image: url(\'' + friend.image + '\');">'+
+		      '</div>'+
+			   ' <div class="media-body">'+
+			   '   <p>' + friend.firstname + ' ' + friend.lastname + '</p>'+
+			   ' </div>'+
+			  '</div>'+
+		  '</a>'+
+		'</li>';
+		$("#friendList").html(queueHtml);
+		});
 }
 
 function loadNewCard() {
@@ -131,7 +191,6 @@ function loadNewCard() {
 
 function recalculateHeight() {
 	var height = $(window).height();
-	console.log(height);
 	var imageHeight = height - 243;
 	$(".swipe-card-img").css("height", imageHeight);
 	return imageHeight;

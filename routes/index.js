@@ -12,7 +12,9 @@ exports.view = function(req, res){
 
   res.render('index', {
   	title: 'Rekindle',
-  	queue_results: queue,
-  	candidates: swipes
+  	queue: queue,
+  	queue_string: JSON.stringify(queue),
+  	candidates: swipes,
+  	candidates_string: JSON.stringify(swipes)
   });
 };
