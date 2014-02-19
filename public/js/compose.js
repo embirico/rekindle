@@ -57,8 +57,9 @@ function deactivateComposeView(e) {
 	$('.swipe-nav').show();
 
 	swipeCardImg = $('.swipe-card-img');
+	imageHeight = recalculateHeight();
 	swipeCardImg.animate({
-		height: swipeCardImg.width()
+		height: imageHeight
 	}, ANIMATION_SPEED);
 }
 

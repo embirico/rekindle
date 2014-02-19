@@ -5,17 +5,14 @@ $(document).ready(function() {
 	initializePage();
 });
 
-var candidate_card_number = 0;
-var new_card;
-var new_card_panel;
+var currentCardNumber = 0;
+var currentCard;
+var currentCardPanel;
 var card_html;
 var time_interval;
 
 $( window ).resize(function() {
-	var height = $(window).height();
-	console.log(height);
-	var image_height = height - 243;
-	$(".swipe-card-img").css("height", image_height);
+	recalculateHeight();
 });
 
 /*
@@ -23,35 +20,35 @@ $( window ).resize(function() {
  */
 function initializePage() {
 
-	var height = $(window).height();
-	console.log(height);
-	var image_height = height - 243;
-	$(".swipe-card-img").css("height", image_height);
+	recalculateHeight();
 
 	var minThresh = 10;
 
   	$("#card_container").swipe( {
         swipeStatus:function(event, phase, direction, distance, duration, fingers)
         {
-          if(distance < 100) {
+          if(distance < 50) {
+          		if (phase == "end") resetCard();
+          	}
+          else if(distance < 100) {
           	if(direction=="left") {
-				partial_left();
+				partialLeft();
           	}
           	else if(direction=="right") {
-				partial_right();
+				partialRight();
           	}
           	if(phase=="end") {
-          		reset_card();
+          		resetCard();
           	}
           }
           else {
           	if(direction=="left") {
           		$("#card_container .top-card .card").addClass("animate-dislike ng-leave ng-leave-active");
-          		if (phase == "end") full_left();
+          		if (phase == "end") fullLeft();
           	}
           	else if(direction=="right") {
           		$("#card_container .top-card .card").addClass("animate-like ng-leave ng-leave-active");
-				if (phase == "end") full_right();
+				if (phase == "end") fullRight();
           	}
           }
         },
@@ -60,85 +57,77 @@ function initializePage() {
       });
 
   	// initalizes the first candidate card
-  	initialize_first_card();
+  	initializeFirstCard();
 }
 
 /* Initializes the first card to be visible */
-function initialize_first_card() {
-	candidate_card_number =	$(".panel").first().attr("data-id");
-	new_card = $(".card-" + candidate_card_number);
+function initializeFirstCard() {
+	
+	// Set the first card to the top
+	currentCard = $(".bottom-card").first();
+	currentCard.removeClass("bottom-card");
+	currentCard.addClass("top-card");
+	currentCard.css("display","block");
 
-	new_card.removeClass("bottom-card");
-	new_card.addClass("top-card");
-
-	new_card_panel = $(".card-panel-" + candidate_card_number);
-	new_card.css("display","block");
-	new_card_panel.css("display", "block");
-
-	//show bottom card
-	var sibling_card = new_card.next();
-	var next_card_number = sibling_card.find(".panel").attr("data-id");
-	var next_card = $(".card-" + next_card_number);
-	next_card.css("display","block");
+	// Show next card underneath
+	var nextCard = currentCard.next();
+	nextCard.css("display","block");
 }
 
-function reset_card() {
+function resetCard() {
 	// TODO, animate this
 	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial animate-like-partial");
+	$("#card_container .top-card .card").addClass("animate-dislike ng-leave");
 }
 
-function partial_right() {
+function partialRight() {
+	$("#card_container .top-card .card").removeClass("animate-like ng-leave ng-leave-active")
 	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial");
 	$("#card_container .top-card .card").addClass("animate-partial animate-like-partial");
 }
 
-function partial_left() {
+function partialLeft() {
+	$("#card_container .top-card .card").removeClass("animate-dislike ng-leave ng-leave-active");
 	$("#card_container .top-card .card").removeClass("animate-partial animate-like-partial");
 	$("#card_container .top-card .card").addClass("animate-partial animate-dislike-partial");
 }
 
 /*clears current card, generates new card*/
-function full_left() {
+function fullLeft() {
 	time_interval = setInterval(loadNewCard, 100);
 }
 
 /*brings up message modal, new card*/
-function full_right() {
+function fullRight() {
 	time_interval = setInterval(loadNewCard, 100);
 	// TODO, load next card
 }
 
 function loadNewCard() {
-	// console.log("loaded");
-	//TODO: later do ajax request from server => returns next card set's html
-	//TODO: two options: display inline rather than visible. OR put this id delete last one
-	// new_card.css("visibility", "hidden");
-	// new_card_panel.css("visibility", "hidden");
-	var sibling_card = new_card.next();
-	// console.log(sibling_card);
+	
+	// TODO: later do ajax request from server => returns next card set's html
+	currentCard.css("display","none");
 
-	new_card.css("display","none");
-	new_card_panel.css("display", "none");
+	// New card becomes top card
+	var nextCard = currentCard.next();
+	currentCard = nextCard;
+	currentCard.removeClass("bottom-card").addClass("top-card");		
 
-	candidate_card_number = sibling_card.attr('class').match(/\d+/);
-	new_card = $(".card-"+candidate_card_number);
-	new_card.removeClass("bottom-card");		//new card becomes top card
-	new_card.addClass("top-card");
+	// Set properties of new card on top to default
+	currentCard.removeClass('*[class^="animate-"]');
+	currentCard.css("display","block");
 
-	new_card_panel = $(".card-panel-"+candidate_card_number);
-	new_card.removeClass('*[class^="animate-"]');
-	// new_card_panel.removeClass('*[class^="animate-"]'); 	TODO get this regext to work
-	new_card_panel.removeClass("animate-partial");
-	new_card_panel.removeClass("animate-dislike animate-dislike-partial");
-	new_card_panel.removeClass("animate-like animate-like-partial");
-	new_card_panel.removeClass("animate-later animate-later-partial");
-	new_card.css("display","block");
-	new_card_panel.css("display", "block");
-
-	sibling_card = new_card.next();
-	var next_card_number = sibling_card.attr('class').match(/\d+/);
-	var next_card = $(".card-"+next_card_number);
-	next_card.css("display","block");
+	// Show the next card hiding under the current one
+	nextCard = currentCard.next();
+	nextCard.css("display","block");
 
 	clearInterval(time_interval);
+}
+
+function recalculateHeight() {
+	var height = $(window).height();
+	console.log(height);
+	var imageHeight = height - 243;
+	$(".swipe-card-img").css("height", imageHeight);
+	return imageHeight;
 }
