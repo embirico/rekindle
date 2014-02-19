@@ -4,20 +4,35 @@
     <!-- The actual navbar you see at the top -->
     <div class="navbar-header">
       <!-- Title: goes in middle of navbar -->
-      <a class="navbar-brand" href="#">Rekindle</a>
+      <div class="navbar-brand" href="#">
+        <span class="swipe-nav">Rekindle</span>
+        <span class="compose-nav">Compose</span>
+      </div>
 
-      <!-- Left nav button -->
-      <a class="navbar-toggle">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
+      <!-- Left nav area -->
+      <div class="left-nav-area">
+        <a class="swipe-nav navbar-toggle">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <!-- This h4 is set to display:none until compose view is activated -->
+        <h4 id="compose-back-button" class="compose-nav"><a>
+          <i class="fa fa-angle-left"></i>&nbsp;Back
+        </a></h4>
+      </div>
 
-      <!-- Right nav button -->
-      <button type="button" class="btn btn-default navbar-toggle-right" data-toggle="offcanvas" data-target=".navbar-collapse">
-        3
-      </button>
+      <!-- Right nav area -->
+      <div class="right-nav-area">
+        <button type="button" class="swipe-nav btn btn-default navbar-toggle-right" data-toggle="offcanvas" data-target=".navbar-collapse">
+          3
+        </button>
+        <!-- This h4 is set to display:none until compose view is activated -->
+        <h4 id="compose-send-button" class="compose-nav"><a>
+          Send
+        </a></h4>
+      </div>
     </div><!-- END The actual navbar you see at the top -->
 
     <!-- The nav menu that slides in from left -->

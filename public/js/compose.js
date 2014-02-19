@@ -1,11 +1,13 @@
 var ANIMATION_SPEED = 400;
+var navLeftHtml, navRightHtml, navBrandText; // Filled by activateComposeView
 
 $(document).ready(function () {
 	$('textarea').focus(activateComposeView);
+	$('#compose-back-button').click(deactivateComposeView);
+	$('#compose-send-button').click(send);
 });
 
 function activateComposeView(e) {
-	// e.preventDefault();
 	textarea = $(this);
 
 	if (textarea.hasClass('compose-active')) {
@@ -13,6 +15,9 @@ function activateComposeView(e) {
 	}
 
 	textarea.addClass('compose-active');
+
+	$('.swipe-nav').hide();
+	$('.compose-nav').show();
 
 	$('.swipe-card-img').animate({height: 0}, ANIMATION_SPEED);
 
@@ -34,10 +39,27 @@ function activateComposeView(e) {
 }
 
 function deactivateComposeView(e) {
+	if (e) {
+		e.preventDefault();
+	}
+
 	textarea.removeClass('compose-active');
+	$('.navbar-brand').text(navBrandText);
+
+	$('.compose-nav').hide();
+	$('.swipe-nav').show();
 
 	swipeCardImg = $('.swipe-card-img');
 	swipeCardImg.animate({
 		height: swipeCardImg.width()
 	}, ANIMATION_SPEED);
+}
+
+// TODO update so we actually send something and update the card
+function send(e) {
+	e.preventDefault();
+
+	alert($('textarea').val());
+	$('textarea').val('');
+	deactivateComposeView(null);
 }
