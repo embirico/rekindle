@@ -4,5 +4,11 @@
  */
 
 exports.view = function(req, res){
-  res.render('search',{title: 'Search'});
+	// Check for query
+	var q = req.query.q
+
+  	res.render('search',{
+  		title: 'Search',
+  		search: q
+  	});
 };

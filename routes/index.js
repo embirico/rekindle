@@ -4,5 +4,13 @@
  */
 
 exports.view = function(req, res){
-  res.render('index',{title: 'Rekindle'});
+
+  // Load JSON data from static file
+  var user_data = require("../user_data.json");
+  var queue = user_data.queue;
+
+  res.render('index', {
+  	title: 'Rekindle',
+  	queue_results: queue
+  });
 };
