@@ -77,7 +77,7 @@ function initializeFirstCard() {
 function resetCard() {
 	// TODO, animate this
 	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial animate-like-partial");
-	$("#card_container .top-card .card").addClass("animate-dislike ng-leave");
+	//$("#card_container .top-card .card").addClass("ng-leave");
 }
 
 function partialRight() {
@@ -104,24 +104,29 @@ function fullRight() {
 }
 
 function loadNewCard() {
-	
 	// TODO: later do ajax request from server => returns next card set's html
 	currentCard.css("display","none");
 
 	// New card becomes top card
 	var nextCard = currentCard.next();
-	currentCard = nextCard;
-	currentCard.removeClass("bottom-card").addClass("top-card");		
+	if(nextCard.length > 0) {
+		currentCard = nextCard;
+		currentCard.removeClass("bottom-card").addClass("top-card");		
 
-	// Set properties of new card on top to default
-	currentCard.removeClass('*[class^="animate-"]');
-	currentCard.css("display","block");
+		// Set properties of new card on top to default
+		currentCard.removeClass('*[class^="animate-"]');
+		currentCard.css("display","block");
 
-	// Show the next card hiding under the current one
-	nextCard = currentCard.next();
-	nextCard.css("display","block");
+		// Show the next card hiding under the current one
+		nextCard = currentCard.next();
+		nextCard.css("display","block");
 
-	clearInterval(time_interval);
+		clearInterval(time_interval);
+	}
+	else {
+		clearInterval(time_interval);
+		alert("No more cards left, show nice message");
+	}
 }
 
 function recalculateHeight() {
