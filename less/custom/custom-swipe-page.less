@@ -57,14 +57,17 @@
 
 /* Overlapping cards */
 
+#card_container {
+  position: relative; 
+}
+
 .top-card {
-  position: relative;
+  position: absolute;
   z-index: 2;
 }
 
 .bottom-card {
-  position: relative;
+  position: absolute;
   z-index: 1;
-  top: -451px;
-  left: 3px;
+  top: 3px;
 }

@@ -43,7 +43,8 @@ function initializePage() {
           	}
           }
         },
-        threshold: minThresh
+        threshold: minThresh,
+        allowPageScroll: "vertical"
       });
 
   	// initalizes the first candidate card
