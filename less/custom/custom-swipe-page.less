@@ -1,0 +1,51 @@
+//== Cards on swipe page
+//
+//##
+
+.swipe-card {
+    overflow: hidden; // So square divs don't overflow rounded corners.
+
+  > .panel-body {
+    padding: 0;
+
+    .swipe-card-img {
+      height: 288px;
+      width: 288px;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .info {
+      padding: 12px;
+
+      a, p {
+        font-weight: 300;
+        margin-bottom: 4px;
+      }
+
+      .top-line {
+        margin-bottom: 8px;
+
+        h4 {
+          display: inline-block;
+          margin: 0;
+        }
+        a {
+          float: right;
+        }
+      }
+
+      i {
+        margin-left: -2px;
+      }
+
+      textarea {
+        margin-top: 8px;
+        padding: 4px 8px;
+      }
+
+    }
+
+  }
+
+}

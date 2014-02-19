@@ -3,13 +3,27 @@
 <div id="page-content">
 
   <div class="container" >
-    <h1 class="no-margin-top">Some stuff</h1>
-    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+		<div class="panel panel-default swipe-card">
+			<div class="panel-body">
+				<!-- Provide background image url as a style for swipe-card-img. -->
+				<!-- This allows use of non-square images with proper scaling. -->
+				<!-- We can use img if the server guarantees square images. -->
+				<div class="swipe-card-img"
+					style="background-image: url('/images/greg.jpg');">
+				</div>
+				<div class="info">
+					<div class="top-line">
+						<h4>Greg Jacobs</h4>
+						<a href="#profile">View more</a>
+					</div>
+					<p><i class="fa fa-map-marker fa-fw"></i> Austin TX</p>
+					<p><i class="fa fa-asterisk fa-fw"></i> New job at Dropbox.</p>
+					<textarea class="form-control" rows="2" placeholder="Send Greg a message"></textarea>
+				</div>
+			</div>
+		</div>
+
   </div>
 
 </div>
