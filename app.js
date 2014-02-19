@@ -13,6 +13,10 @@ var lessMiddleware = require("less-middleware");
 
 // Routes
 var index = require('./routes/index');
+var search = require('./routes/search');
+var help = require('./routes/help');
+var settings = require('./routes/settings');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -53,6 +57,10 @@ if ('development' == app.get('env')) {
 app.locals.layout = './main.handlebars';
 app.get('/', index.view);
 app.get('/index', index.view);
+app.get('/help', help.view);
+app.get('/settings', settings.view);
+app.get('/search', search.view);
+
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){
