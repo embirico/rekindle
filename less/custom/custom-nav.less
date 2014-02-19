@@ -78,7 +78,7 @@
 }
 
 
-//== Off Canvas experiment
+//== Off Canvas
 //
 //##
 
@@ -96,10 +96,13 @@ body {
 .no-margin-top {
     margin-top: 0px!important
 }
+.navbar {
+  margin-bottom: @margin-btw-nav-and-card + 1;
+}
 /*wrap the entire page content but not nav inside this div if not a fixed top, don't add any top padding */
 #page-content {
     position: relative;
-    padding-top: 70px;
+    padding-top: @navbar-height + @margin-btw-nav-and-card;
     left: 0;
 }
 #page-content.slide-active {
