@@ -1,0 +1,68 @@
+{
+
+	"profile" : {
+		"firstname": "Alex",
+		"lastname": "Embiricos",
+		"email": "alexanderembiricos@gmail.com",
+		"facebook_id": "12345678",
+		"sessionkey": "3teghj6i7543rwefdgrhytu765"
+	},
+  "settings" : {
+    "months_between_reminders": 2,
+    "keep_queue_short": true
+  },
+	"queue": [
+      { "firstname": "Justin",
+        "lastname": "Womersley",
+        "image": "/images/justin.jpg",
+        "location": "Palo Alto",
+        "milestone": "Engaged 3 months ago",
+        "id" : 2
+      },
+      { "firstname": "Susan",
+        "lastname": "Vogel",
+        "image": "/images/profile3.jpg",
+        "location": "New York",
+        "milestone": "New Job 2 months ago",
+        "id" : 4
+      },
+      { "firstname": "James",
+        "lastname": "Bolton",
+        "image": "/images/profile2.jpg",
+        "location": "Cape Town",
+        "milestone": "Birthday last week",
+        "id" : 3
+      }
+    ],
+    "candidates" : [
+      { "firstname": "Justin",
+        "lastname": "Womersley",
+        "location": "Palo Alto",
+        "milestone": "Engaged 3 months ago",
+        "image": "/images/justin.jpg",
+        "id": 2
+      },
+
+      { "firstname": "Nicole",
+        "lastname": "Zhu",
+        "location": "Palo Alto",
+        "milestone": "Just moved to Palo Alto",
+        "image": "/images/nicole.jpg",
+        "id": 5
+      },
+        { "firstname": "Susan",
+        "lastname": "Vogel",
+        "image": "/images/profile3.jpg",
+        "location": "New York",
+        "milestone": "New Job 2 months ago",
+        "id" : 4
+      },
+      { "firstname": "James",
+        "lastname": "Bolton",
+        "image": "/images/profile2.jpg",
+        "location": "Cape Town",
+        "milestone": "Birthday last week",
+        "id" : 3
+      }
+    ]
+}

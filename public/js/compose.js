@@ -44,7 +44,6 @@ function deactivateComposeView(e) {
 	}
 
 	textarea.removeClass('compose-active');
-	$('.navbar-brand').text(navBrandText);
 
 	$('.compose-nav').hide();
 	$('.swipe-nav').show();

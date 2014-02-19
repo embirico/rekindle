@@ -60,7 +60,7 @@ app.get('/index', index.view);
 app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
-
+app.get('/login', login.view);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

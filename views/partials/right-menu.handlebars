@@ -5,12 +5,9 @@
     </div>
     <div class="queue">
       <ul class="media-list">
-        {{> queue-card}}
-        {{> queue-card}}
-        {{> queue-card}}
-        {{> queue-card}}
-        {{> queue-card}}
-        {{> queue-card}}
+        {{#each queue_results}}
+          {{> queue-card}}
+        {{/each}}
       </ul>
     </div>
   </div><!-- END The nav menu that slides in from right -->
