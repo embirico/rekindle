@@ -92,9 +92,9 @@ function partialLeft() {
 	$("#card_container .top-card .card").addClass("animate-partial animate-dislike-partial");
 }
 
-/*clears current card, generates new card*/
+/* Clears current card, generates new card*/
 function fullLeft() {
-	// Remove this card from candidates_json array
+	// Remove this card from candidatesJSON array
 	var swipedCard;
 	var swipedIndex = -1;
 	$.each(candidatesJSON, function(index, candidate) {
@@ -110,9 +110,10 @@ function fullLeft() {
 	time_interval = setInterval(loadNewCard, 100);
 }
 
-/*brings up message modal, new card*/
+
+/* Brings up message modal, new card*/
 function fullRight() {
-	// Remove this card from candidates_json array
+	// Remove this card from candidatesJSON array
 	var swipedCard;
 	var swipedIndex = -1;
 	$.each(candidatesJSON, function(index, candidate) {
@@ -125,15 +126,14 @@ function fullRight() {
 
 	// TODO, push this action to the server via AJAX
 
-	// Add the person to the queue_json
+	// Add the person to the queueJSON
 	queueJSON.push(swipedCard);
 	renderQueue();
 
 	time_interval = setInterval(loadNewCard, 100);
-	// TODO, load next card
 }
 
-// Using the queueJSON array, rebuilts the queue
+// Using the queueJSON array, rebuilts the queue HTML
 function renderQueue() {
 	$("#queueIndicator").text(queueJSON.length);
 	$("#queueIndicator").animate({
@@ -162,6 +162,8 @@ function renderQueue() {
 		$("#friendList").html(queueHtml);
 		});
 }
+
+
 
 function loadNewCard() {
 	// TODO: later do ajax request from server => returns next card set's html
