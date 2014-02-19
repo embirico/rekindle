@@ -28,10 +28,6 @@ function initializePage() {
           	else if(direction=="right") {
 				partial_right();
           	}
-          	else if(direction=="down"){
-          		partial_down();
-
-          	}
           	if(phase=="end") {
           		reset_card();
           	}
@@ -43,10 +39,6 @@ function initializePage() {
           	}
           	else if(direction=="right") {
 				full_right();
-          	} 
-          	else if(direction=="down"){
-          		$("#card_container .card").addClass("animate-later ng-leave ng-leave-active");
-          		if (phase == "end") full_down();
           	}
           }
         },
@@ -60,21 +52,19 @@ function initializePage() {
 /* Initializes the first card to be visible */
 function initialize_first_card() {
 	candidate_card_number =	$(".panel").first().attr("data-id");
-	new_card = $(".card-"+candidate_card_number);
+	new_card = $(".card-" + candidate_card_number);
 
 	new_card.removeClass("bottom-card");
 	new_card.addClass("top-card");
 
-
-	new_card_panel = $(".card-panel-"+candidate_card_number);
+	new_card_panel = $(".card-panel-" + candidate_card_number);
 	new_card.css("display","block");
 	new_card_panel.css("display", "block");
 
-
 	//show bottom card
 	var sibling_card = new_card.next();
-	var next_card_number = sibling_card.attr('class').match(/\d+/);
-	var next_card = $(".card-"+next_card_number);
+	var next_card_number = sibling_card.attr("data-id");
+	var next_card = $(".card-" + next_card_number);
 	next_card.css("display","block");
 }
 
@@ -93,17 +83,10 @@ function partial_left() {
 	$("#card_container .top-card .card").addClass("animate-partial animate-dislike-partial");
 }
 
-//TODO fix this
-function partial_down() {
-	$("#card_container .card").removeClass("animate-partial animate-like-partial animate-dislike-partial");
-	$("#card_container .card").addClass("animate-partial animate-later-partial");
-}
-
 /*clears current card, generates new card*/
 function full_left() {
 	time_interval = setInterval(loadNewCard, 100);
 }
-
 
 /*brings up message modal, new card*/
 function full_right() {
@@ -139,7 +122,7 @@ function loadNewCard() {
 	new_card.css("display","block");
 	new_card_panel.css("display", "block");
 
-	 sibling_card = new_card.next();
+	sibling_card = new_card.next();
 	var next_card_number = sibling_card.attr('class').match(/\d+/);
 	var next_card = $(".card-"+next_card_number);
 	next_card.css("display","block");
