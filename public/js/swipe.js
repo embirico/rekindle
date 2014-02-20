@@ -5,6 +5,10 @@ $(document).ready(function() {
 	initializePage();
 });
 
+$(window).resize(function() {
+	recalculateHeight(true);
+});
+
 var currentCardNumber = 0;
 var currentCard;
 var currentCardPanel;
@@ -231,7 +235,7 @@ function renderStack() {
 	var nextCard = currentCard.next();
 	nextCard.css("display","block");
 
-	recalculateHeight();
+	recalculateHeight(true);
 	addComposeListeners();
 }
 
@@ -261,9 +265,9 @@ function loadNewCard() {
 	}
 }
 
-function recalculateHeight() {
+function recalculateHeight(resize) {
 	var height = $(window).height();
 	var imageHeight = height - 250;
-	$("#card_container .swipe-card-image").css("height", imageHeight);
+	if(resize) $("#card_container .swipe-card-image").css("height", imageHeight);
 	return imageHeight;
 }
