@@ -64,23 +64,31 @@ function initializePage() {
 function shakeEventDidOccur () {
 
     // Put your own code here etc.
-    if (confirm("Undo?")) {
-    	if(addedToRemoved) {
+	if(addedToRemoved) {
+		if (confirm("Undo swipe left?")) {
+			addedToRemoved = false;
     		var person = removedJSON.shift();
     		candidatesJSON.unshift(person);
     		renderStack();
-    	} else if(addedToQueue) {
+		}
+	} else if(addedToQueue) {
+		if (confirm("Undo swipe right?")) {
+			addedToQueue = false;
      		var person = queueJSON.shift();
     		candidatesJSON.unshift(person);
     		renderStack();
-    		renderQueue();		
-    	} else if(addedToStack) {
+    		renderQueue();	
+		}	
+	} else if(addedToStack) {
+		if (confirm("Put back into queue?")) {
+			addedToStack = false;
         	var person = candidatesJSON.shift();
     		queueJSON.unshift(person);
     		renderStack();
     		renderQueue();
     	}
-    }
+	}
+    
 }
 
 function resetCard() {
