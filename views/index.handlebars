@@ -22,10 +22,10 @@
 	<li class="media">
 	  <a href="#" class="queue-link" data-id="\{{id}}">
 		  <div class="media">
-	      <div class="pull-left media-object queue-card-img img-circle" style="background-image: url('\{{image}}');">
+	      <div class="pull-left media-object queue-card-img img-circle" style="background-image: url('\{{picture.data.url}}');">
 	      </div>
 		    <div class="media-body">
-		      <p>\{{firstname}} \{{lastname}}</p>
+		      <p>\{{first_name}} \{{last_name}}</p>
 		    </div>
 		  </div>
 	  </a>
@@ -39,18 +39,18 @@
 				<!-- Provide background image url as a style for swipe-card-img. -->
 				<!-- This allows use of non-square images with proper scaling. -->
 				<!-- We can use img if the server guarantees square images. -->
-				<div class="swipe-card-image" style="background-image: url('\{{image}}')">
+				<div class="swipe-card-image" style="background-image: url('\{{picture.data.url}}')">
 				</div>
 				<div class="swipe-card-info">
 					<div class="top-line">
-						<h4>\{{firstname}} \{{lastname}}</h4>
+						<h4>\{{first_name}} \{{last_name}}</h4>
 						<a href="#profile">View more</a>
 					</div>
-					<p><i class="fa fa-map-marker fa-fw"></i> \{{location}}</p>
+					<p><i class="fa fa-map-marker fa-fw"></i> \{{location.name}}</p>
 					<p><i class="fa fa-asterisk fa-fw"></i> \{{milestone}}</p>
 				</div>
 				<div class="swipe-card-input">
-					<textarea class="form-control" rows="2" placeholder="Send \{{firstname}} a message"></textarea>
+					<textarea class="form-control" rows="2" placeholder="Send \{{first_name}} a message"></textarea>
 				</div>
 			</div>
 		</div>

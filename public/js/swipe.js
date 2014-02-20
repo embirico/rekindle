@@ -172,15 +172,23 @@ function renderQueue() {
 	});
 
 	// Render out the list of people in the queue
-	var queueHtml = '';
-	var queueCardTemplate = $("#queue-card-template").html();
-	var compiledTemplate = Handlebars.compile(queueCardTemplate);
-	$.each(queueJSON, function(index, friend) {
-		queueHtml = queueHtml + compiledTemplate(friend);
+	if(queueJSON.length == 0) {
+		queueHtml = "<p class=\"message\">Nobody in here yet.</p><p class=\"message\">Swipe people you want to keep in touch with to the right to save them here.</p>" +
+					"<button id=\"getSwiping\" class=\"btn btn-default\">Get Swiping</button>";
+		$("#friendList").html(queueHtml);
+		$("#getSwiping").click(function() {
+			$("#queueIndicator").click();
 		});
-	$("#friendList").html(queueHtml);
-	
-	initializeQueueLinks();
+	} else {
+		var queueHtml = '';
+		var queueCardTemplate = $("#queue-card-template").html();
+		var compiledTemplate = Handlebars.compile(queueCardTemplate);
+		$.each(queueJSON, function(index, friend) {
+			queueHtml = queueHtml + compiledTemplate(friend);
+			});
+		$("#friendList").html(queueHtml);
+		initializeQueueLinks();
+	}
 }
 
 function initializeQueueLinks() {

@@ -5,7 +5,7 @@
     <div class="navbar-header">
       <!-- Title: goes in middle of navbar -->
       <div class="navbar-brand" href="#">
-        <span class="swipe-nav">Rekindle</span>
+        <span class="swipe-nav"><a href="/">Rekindle</a></span>
         <span class="compose-nav">Compose</span>
       </div>
 
@@ -23,6 +23,7 @@
         </a></h4>
       </div>
 
+      {{#if showQueueButton}}
       <!-- Right nav area -->
       <div class="right-nav-area">
         <button type="button" class="swipe-nav btn btn-default navbar-toggle-right" data-toggle="offcanvas" data-target=".navbar-collapse" id="queueIndicator">
@@ -33,11 +34,15 @@
           Send
         </a></h4>
       </div>
+      {{/if}}
+
     </div><!-- END The actual navbar you see at the top -->
 
     {{> left-menu}}
 
-    {{> right-menu}}
+    {{#if showQueueButton}}
+      {{> right-menu}}
+    {{/if}}
 
   </div>
 </div>
