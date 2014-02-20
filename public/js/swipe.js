@@ -10,19 +10,19 @@ var currentCard;
 var currentCardPanel;
 var card_html;
 var time_interval;
-
-$( window ).resize(function() {
-	recalculateHeight();
-});
-
+var addedToQueue = false;
+var addedToStack = false;
+var addedToRemoved = false;
 /*
  * Function that is called when the document is ready.
  */
 function initializePage() {
 
-	recalculateHeight();
-
 	var minThresh = 10;
+
+	// Render the stack and queue
+	renderStack();
+  	renderQueue();
 
   	$("#card_container").swipe( {
         swipeStatus:function(event, phase, direction, distance, duration, fingers)
@@ -56,32 +56,40 @@ function initializePage() {
         allowPageScroll: "vertical"
       });
 
-  	// initalizes the first candidate card
-  	initializeFirstCard();
+  	window.addEventListener('shake', shakeEventDidOccur, false);
+
 }
 
-/* Initializes the first card to be visible */
-function initializeFirstCard() {
-	
-	// Set the first card to the top
-	currentCard = $(".bottom-card").first();
-	currentCard.removeClass("bottom-card");
-	currentCard.addClass("top-card");
-	currentCard.css("display","block");
+// Function to call when shake occurs
+function shakeEventDidOccur () {
 
-	// Show next card underneath
-	var nextCard = currentCard.next();
-	nextCard.css("display","block");
+    // Put your own code here etc.
+    if (confirm("Undo?")) {
+    	if(addedToRemoved) {
+    		var person = removedJSON.shift();
+    		candidatesJSON.unshift(person);
+    		renderStack();
+    	} else if(addedToQueue) {
+     		var person = queueJSON.shift();
+    		candidatesJSON.unshift(person);
+    		renderStack();
+    		renderQueue();		
+    	} else if(addedToStack) {
+        	var person = candidatesJSON.shift();
+    		queueJSON.unshift(person);
+    		renderStack();
+    		renderQueue();
+    	}
+    }
 }
 
 function resetCard() {
 	// TODO, animate this
 	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial animate-like-partial");
-	//$("#card_container .top-card .card").addClass("ng-leave");
 }
 
 function partialRight() {
-	$("#card_container .top-card .card").removeClass("animate-like ng-leave ng-leave-active")
+	$("#card_container .top-card .card").removeClass("animate-like ng-leave ng-leave-active");
 	$("#card_container .top-card .card").removeClass("animate-partial animate-dislike-partial");
 	$("#card_container .top-card .card").addClass("animate-partial animate-like-partial");
 }
@@ -104,9 +112,13 @@ function fullLeft() {
                 }
             });
 	candidatesJSON.splice(swipedIndex,1);
+	removedJSON.unshift(swipedCard);
+
+	addedToQueue = false;
+	addedToStack = false;
+	addedToRemoved = true;
 
 	// TODO, push this action to the server via AJAX
-
 	time_interval = setInterval(loadNewCard, 100);
 }
 
@@ -125,10 +137,13 @@ function fullRight() {
 	candidatesJSON.splice(swipedIndex,1);
 
 	// TODO, push this action to the server via AJAX
-
 	// Add the person to the queueJSON
-	queueJSON.push(swipedCard);
+	queueJSON.unshift(swipedCard);
 	renderQueue();
+	
+	addedToQueue = true;
+	addedToStack = false;
+	addedToRemoved = false;
 
 	time_interval = setInterval(loadNewCard, 100);
 }
@@ -142,28 +157,75 @@ function renderQueue() {
 		$(this).animate({
 			opacity: "1"
 		}, 100);
-	}
-	);
+	});
 
-	// TODO, render out the list of people in the queue
+	// Render out the list of people in the queue
 	var queueHtml = '';
+	var queueCardTemplate = $("#queue-card-template").html();
+	var compiledTemplate = Handlebars.compile(queueCardTemplate);
 	$.each(queueJSON, function(index, friend) {
-		queueHtml = queueHtml + '<li class="media">'+
-		  '<a href="#">'+
-			  '<div class="media">'+
-		      '<div class="pull-left media-object queue-card-img img-circle" style="background-image: url(\'' + friend.image + '\');">'+
-		      '</div>'+
-			   ' <div class="media-body">'+
-			   '   <p>' + friend.firstname + ' ' + friend.lastname + '</p>'+
-			   ' </div>'+
-			  '</div>'+
-		  '</a>'+
-		'</li>';
-		$("#friendList").html(queueHtml);
+		queueHtml = queueHtml + compiledTemplate(friend);
 		});
+	$("#friendList").html(queueHtml);
+	
+	initializeQueueLinks();
 }
 
+function initializeQueueLinks() {
+	// Initialize the queue click listeners
+	$(".queue-link").click(function() {
+		var personsID = $(this).attr("data-id");
+		var personIndex = -1;
+		var personObject;
+		$.each(queueJSON, function(index, queuedFriend) {
+	                if(queuedFriend.id == personsID) {
+	                	personObject = queuedFriend;
+	                	personIndex = index;
+	                }
+	            });
+		// Remove this person from the queued JSON
+		queueJSON.splice(personIndex,1);
 
+		// Add the person to the queueJSON
+		candidatesJSON.unshift(personObject);
+
+		addedToQueue = false;
+		addedToStack = true;
+		addedToRemoved = false;
+
+		// Render queue & stack
+		renderStack();
+	  	renderQueue();
+
+		// Move back to full page view
+		$("#queueIndicator").click();
+	});
+}
+
+function renderStack() {
+	// Render out the list of people in the queue
+	var cardsHtml = '';
+	$("#card_container").html("");
+	var CardTemplate = $("#card-template").html();
+	var compiledTemplate = Handlebars.compile(CardTemplate);
+	$.each(candidatesJSON, function(index, candidate) {
+		cardsHtml = cardsHtml + compiledTemplate(candidate);
+		});
+	$("#card_container").html(cardsHtml);
+	
+	// Set the first card to the top
+	currentCard = $(".bottom-card").first();
+	currentCard.removeClass("bottom-card");
+	currentCard.addClass("top-card");
+	currentCard.css("display","block");
+
+	// Show next card underneath
+	var nextCard = currentCard.next();
+	nextCard.css("display","block");
+
+	recalculateHeight();
+	addComposeListeners();
+}
 
 function loadNewCard() {
 	// TODO: later do ajax request from server => returns next card set's html
@@ -193,7 +255,7 @@ function loadNewCard() {
 
 function recalculateHeight() {
 	var height = $(window).height();
-	var imageHeight = height - 243;
-	$(".swipe-card-img").css("height", imageHeight);
+	var imageHeight = height - 250;
+	$("#card_container .swipe-card-image").css("height", imageHeight);
 	return imageHeight;
 }

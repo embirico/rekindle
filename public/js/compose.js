@@ -2,10 +2,14 @@ var ANIMATION_SPEED = 400;
 var navLeftHtml, navRightHtml, navBrandText; // Filled by activateComposeView
 
 $(document).ready(function () {
+	addComposeListeners();
+});
+
+function addComposeListeners() {
 	$('textarea').focus(activateComposeView);
 	$('#compose-back-button').click(deactivateComposeView);
 	$('#compose-send-button').click(send);
-});
+}
 
 function activateComposeView(e) {
 	textarea = $(this);
@@ -22,7 +26,7 @@ function activateComposeView(e) {
 	$('.swipe-nav').hide();
 	$('.compose-nav').show();
 
-	$('.swipe-card-img').animate({height: 0}, ANIMATION_SPEED);
+	$('.swipe-card-image').animate({height: 0}, ANIMATION_SPEED);
 
 	// IDEALLY I WANT TO GROW THE TEXTBOX, BUT THERE ISN'T MUCH SPACE ON THE
 	// IPHONE 5
@@ -56,7 +60,7 @@ function deactivateComposeView(e) {
 	$('.compose-nav').hide();
 	$('.swipe-nav').show();
 
-	swipeCardImg = $('.swipe-card-img');
+	swipeCardImg = $('.swipe-card-image');
 	imageHeight = recalculateHeight();
 	swipeCardImg.animate({
 		height: imageHeight
