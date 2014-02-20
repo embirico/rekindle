@@ -1,17 +1,11 @@
 var ANIMATION_SPEED = 400;
 var navLeftHtml, navRightHtml, navBrandText; // Filled by activateComposeView
 
-$(document).ready(function () {
-	addComposeListeners();
-});
-
 function addComposeListeners() {
-	$('textarea').focus(activateComposeView);
-	$('#compose-back-button').click(deactivateComposeView);
-	$('#compose-send-button').click(send);
+	$('textarea').bind('focus', activateComposeViewHandler);
 }
 
-function activateComposeView(e) {
+var activateComposeViewHandler = function(e) {
 	textarea = $(this);
 
 	if (textarea.hasClass('compose-active')) {
@@ -26,7 +20,10 @@ function activateComposeView(e) {
 	$('.swipe-nav').hide();
 	$('.compose-nav').show();
 
-	$('.swipe-card-image').animate({height: 0}, ANIMATION_SPEED);
+	$('#compose-back-button').bind('click', deactivateComposeViewHandler);
+	$('#compose-send-button').bind('click', sendHandler);
+
+	$('#card_container .swipe-card-image').animate({height: 0}, ANIMATION_SPEED);
 
 	// IDEALLY I WANT TO GROW THE TEXTBOX, BUT THERE ISN'T MUCH SPACE ON THE
 	// IPHONE 5
@@ -50,28 +47,31 @@ function activateComposeView(e) {
 	// $('html, body').delay(1000).scrollTop();
 }
 
-function deactivateComposeView(e) {
+var deactivateComposeViewHandler = function(e) {
 	if (e) {
 		e.preventDefault();
 	}
 
-	textarea.removeClass('compose-active');
+	$('.top-card textarea').removeClass('compose-active');
 
 	$('.compose-nav').hide();
 	$('.swipe-nav').show();
 
-	swipeCardImg = $('.swipe-card-image');
+	swipeCardImg = $('#card_container .swipe-card-image');
 	imageHeight = recalculateHeight(false);
 	swipeCardImg.animate({
 		height: imageHeight
 	}, ANIMATION_SPEED);
+
+	$('#compose-back-button').unbind('click', deactivateComposeViewHandler);
+	$('#compose-send-button').unbind('click', sendHandler);
 }
 
 // TODO update so we actually send something and update the card
-function send(e) {
+var sendHandler = function(e) {
 	e.preventDefault();
 
-	alert($('textarea').val());
-	$('textarea').val('');
-	deactivateComposeView(null);
+	alert("Your message has been sent.");
+	$('.top-card textarea').val('');
+	deactivateComposeViewHandler(null);
 }

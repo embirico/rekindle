@@ -18,6 +18,10 @@ var help = require('./routes/help');
 var settings = require('./routes/settings');
 var login = require('./routes/login');
 
+// Ajax routes
+var swipes = require('./routes/get_more_swipes.js');
+
+
 var app = express();
 
 // all environments
@@ -61,6 +65,9 @@ app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
 app.get('/login', login.view);
+
+// Ajax URLs
+app.post('/getSwipes', swipes.getMore)
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

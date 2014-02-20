@@ -1,22 +1,23 @@
-<div class="card-{{id}} bottom-card" style="display: none" data-id="{{id}}">
-	<div class="panel panel-default swipe-card card card-panel-{{id}}" data-id="{{id}}">
+
+<!-- NOTE: handlebars variables here are escaped, as this tempalte is passed to front-end -->
+<div class="card-\{{id}} bottom-card" style="display: none" data-id="\{{id}}">
+	<div class="panel panel-default swipe-card card card-panel-\{{id}}" data-id="\{{id}}">
 		<div class="panel-body">
 			<!-- Provide background image url as a style for swipe-card-img. -->
 			<!-- This allows use of non-square images with proper scaling. -->
 			<!-- We can use img if the server guarantees square images. -->
-			<div class="swipe-card-img"
-				style="background-image: url('{{picture.data.url}}');">
+			<div class="swipe-card-image" style="background-image: url('\{{picture.data.url}}')">
 			</div>
 			<div class="swipe-card-info">
 				<div class="top-line">
-					<h4>{{first_name}} {{last_name}}</h4>
+					<h4>\{{first_name}} \{{last_name}}</h4>
 					<a href="#profile">View more</a>
 				</div>
-				<p><i class="fa fa-map-marker fa-fw"></i> {{location.name}}</p>
-				<p><i class="fa fa-asterisk fa-fw"></i> {{milestone}}</p>
+				<p><i class="fa fa-map-marker fa-fw"></i> \{{location.name}}</p>
+				<p><i class="fa fa-asterisk fa-fw"></i> \{{milestone}}</p>
 			</div>
 			<div class="swipe-card-input">
-				<textarea class="form-control" rows="2" placeholder="Send {{first_name}} a message"></textarea>
+				<textarea class="form-control" rows="2" placeholder="Send \{{first_name}} a message"></textarea>
 			</div>
 		</div>
 	</div>

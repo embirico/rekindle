@@ -9,18 +9,25 @@ $(window).resize(function() {
 	recalculateHeight(true);
 });
 
-var currentCardNumber = 0;
 var currentCard;
-var currentCardPanel;
-var card_html;
 var time_interval;
 var addedToQueue = false;
 var addedToStack = false;
 var addedToRemoved = false;
+
+var compiledQueueTemplate;
+var compiledCardTemplate;
+
 /*
  * Function that is called when the document is ready.
  */
 function initializePage() {
+
+	// Compile handlebars templates for speed
+	var queueCardTemplate = $("#queue-card-template").html();
+	compiledQueueTemplate = Handlebars.compile(queueCardTemplate); 
+	var CardTemplate = $("#card-template").html();
+	compiledCardTemplate = Handlebars.compile(CardTemplate);
 
 	var minThresh = 10;
 
@@ -61,6 +68,10 @@ function initializePage() {
       });
 
   	window.addEventListener('shake', shakeEventDidOccur, false);
+  	
+  	$("#queue-back-link").click(function() {
+  		$("#queueIndicator").click();
+  	});
 
 }
 
@@ -181,10 +192,8 @@ function renderQueue() {
 		});
 	} else {
 		var queueHtml = '';
-		var queueCardTemplate = $("#queue-card-template").html();
-		var compiledTemplate = Handlebars.compile(queueCardTemplate);
 		$.each(queueJSON, function(index, friend) {
-			queueHtml = queueHtml + compiledTemplate(friend);
+			queueHtml = queueHtml + compiledQueueTemplate(friend);
 			});
 		$("#friendList").html(queueHtml);
 		initializeQueueLinks();
@@ -226,10 +235,8 @@ function renderStack() {
 	// Render out the list of people in the queue
 	var cardsHtml = '';
 	$("#card_container").html("");
-	var CardTemplate = $("#card-template").html();
-	var compiledTemplate = Handlebars.compile(CardTemplate);
 	$.each(candidatesJSON, function(index, candidate) {
-		cardsHtml = cardsHtml + compiledTemplate(candidate);
+		cardsHtml = cardsHtml + compiledCardTemplate(candidate);
 		});
 	$("#card_container").html(cardsHtml);
 	
@@ -270,6 +277,24 @@ function loadNewCard() {
 	else {
 		clearInterval(time_interval);
 		alert("No more cards left, show nice message");
+	}
+
+	// Check to see if we need to request more swipe cards from the server
+	getMoreSwipeData();
+
+}
+
+function getMoreSwipeData() {
+	var buffer = 4;
+	var numerNewCards = 5;
+
+	if(candidatesJSON.length < buffer) {
+		$.post('/getSwipes', {offset: swipeCardIndex, numerNewCards: numerNewCards}, function(data) {
+			console.log(data);
+			swipeCardIndex = swipeCardIndex + numerNewCards;
+			candidatesJSON = candidatesJSON.concat(data);
+			renderStack();
+		});
 	}
 }
 
