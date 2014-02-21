@@ -6,7 +6,8 @@ var UserSchema = new Mongoose.Schema({
   "last_name": String,
   "image": String,
   "location": String,
-  "id": String
+  "id": String,
+  "in_queue": Number
 });
 
 exports.User = Mongoose.model('User', UserSchema);

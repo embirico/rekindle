@@ -35,7 +35,8 @@ exports.addFriends = function(req, res) {
       "last_name": form_data[i].last_name,
       "image": form_data[i].picture.data.url,
       "location": location,
-      "id": form_data[i].id
+      "id": form_data[i].id,
+      "in_queue": 0
     });
     newUser.save(afterSaving);
   }
