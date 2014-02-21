@@ -67,7 +67,8 @@ app.get('/search', search.view);
 app.get('/login', login.view);
 
 // Ajax URLs
-app.post('/getSwipes', swipes.getMore)
+app.post('/getSwipes', swipes.getMore);
+app.get('/autocomplete.json', search.getAutocompleteJSON);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

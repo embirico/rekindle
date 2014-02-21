@@ -2,12 +2,12 @@
 
 <div id="page-content">
 	<div class="container">
-		<h4>Search by name, location or milestone:</h4>
+		<h4>Search by name:</h4>
 		<form role="search" method="get" action="/search">
 			<div class="input-group">
-				<input type="search" class="form-control" name="q"
-				{{#if q}}
-					value="{{q}}"
+				<input type="search" class="form-control" name="search"
+				{{#if search}}
+					value="{{search}}"
 				{{else}}
 					placeholder="Search"
 				{{/if}}
@@ -20,8 +20,6 @@
 			</div>
 		</form>
 
-		<h4>Results</h4>
-		{{search}}
 		{{#each results}}
 			<div class="container">
 				{{> card}}

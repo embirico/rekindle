@@ -184,8 +184,8 @@ function renderQueue() {
 
 	// Render out the list of people in the queue
 	if(queueJSON.length == 0) {
-		queueHtml = "<p class=\"message\">Nobody in here yet.</p><p class=\"message\">Swipe people you want to keep in touch with to the right to save them here.</p>" +
-					"<button id=\"getSwiping\" class=\"btn btn-default\">Get Swiping</button>";
+		queueHtml = "<p class=\"message\">Nobody in here yet.</p><p class=\"message\">Want to keep in touch with someone? Swipe them to the right to save them here.</p>" +
+					"<button id=\"getSwiping\" class=\"btn btn-default\">Ok got it, let's swipe!</button>";
 		$("#friendList").html(queueHtml);
 		$("#getSwiping").click(function() {
 			$("#queueIndicator").click();

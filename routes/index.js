@@ -20,4 +20,5 @@ exports.view = function(req, res){
     showQueueButton: true,
     numberSwipeCards: numberSwipeCards
   });
+  
 };

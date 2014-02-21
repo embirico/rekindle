@@ -258,12 +258,11 @@ body {
       width: 100%;
       margin: 8px 0;
       text-align: center;
-      overflow: hidden;
       /*fast clearfixer*/
     }
     .navbar-form .form-control {
       height: 30px;
-      text-align: center
+      text-align: left;
     }
 
     .navbar-form .btn-default {
@@ -281,4 +280,27 @@ body {
   .navbar-header {
       left: 0!important
   }
+}
+
+.twitter-typeahead {
+  margin-top: 4px;
+}
+
+.tt-dropdown-menu {
+  background-color: white;
+  color: black;
+  text-align: left;
+  padding-left: 10px;
+  width: 185px;
+  font-size: 18px;
+}
+
+.tt-suggestion {
+  padding: 10px 0 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.tt-suggestion strong {
+  font-weight: bold;
+  color: @brand-primary;
 }

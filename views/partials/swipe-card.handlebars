@@ -13,8 +13,16 @@
 					<h4>\{{first_name}} \{{last_name}}</h4>
 					<a href="#profile">View more</a>
 				</div>
-				<p><i class="fa fa-map-marker fa-fw"></i> \{{location.name}}</p>
-				<p><i class="fa fa-asterisk fa-fw"></i> \{{milestone}}</p>
+				\{{#if location.name.length}}
+					<p><i class="fa fa-map-marker fa-fw"></i> \{{location.name}}</p>
+				\{{else}}
+					<p>&nbsp;</p>
+				\{{/if}}
+				\{{#if milestone.length}}
+					<p><i class="fa fa-asterisk fa-fw"></i> \{{milestone}}</p>
+				\{{else}}
+					<p>&nbsp;</p>
+				\{{/if}}
 			</div>
 			<div class="swipe-card-input">
 				<textarea class="form-control" rows="2" placeholder="Send \{{first_name}} a message"></textarea>
