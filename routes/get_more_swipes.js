@@ -12,7 +12,7 @@ exports.getMore = function(req, res){
 	var numerNewCards = parseInt(req.body.numerNewCards);
 
 	models.Friend
-    .find({"owner_id": req.session.userID})
+    .find({"owner_id": req.session.userID, "in_queue":0})
     .skip(offset)
     .limit(numerNewCards)
     .exec(afterQuery);

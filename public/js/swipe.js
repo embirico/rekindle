@@ -159,7 +159,11 @@ function fullRight() {
             });
 	candidatesJSON.splice(swipedIndex,1);
 
-	// TODO, push this action to the server via AJAX
+	// Push this action to the server via AJAX
+	$.post('/updateQueue', {action: "add", id: swipedCard.id}, function(data) {
+        console.log("added to queue on server");
+      });
+
 	// Add the person to the queueJSON
 	queueJSON.unshift(swipedCard);
 	renderQueue();
@@ -217,6 +221,11 @@ function initializeQueueLinks() {
 
 		// Add the person to the queueJSON
 		candidatesJSON.unshift(personObject);
+
+		// Push this action to the server via AJAX
+		$.post('/updateQueue', {action: "remove", id: personObject.id}, function(data) {
+	        console.log("added to queue on server");
+	      });
 
 		addedToQueue = false;
 		addedToStack = true;

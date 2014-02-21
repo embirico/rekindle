@@ -55,16 +55,35 @@ exports.addFriends = function(req, res) {
   }
 }
 
+exports.updateQueue = function(req, res) {
+  var form_data = req.body;
+  var friendID = parseInt(form_data.id);
+  var action = form_data.action;
 
-exports.getFriends = function(req, res) {
-  models.Friend
-    .find({})
-    .exec(afterQuery);
+  if(action == "add") {
 
-  function afterQuery(err, users) {
-    if(err) console.log(err);
-    console.log(users)
-    return users;
+    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+      , update = { "in_queue": 1}
+      , options = { multi: true };
+
+    models.Friend.update(conditions, update, options, afterUpdating);
+    function afterUpdating(err) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(200);
+    }
+
+
+  } else if(action == "remove") {
+
+    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+      , update = { "in_queue": 0}
+      , options = { multi: true };
+
+    models.Friend.update(conditions, update, options, afterUpdating);
+    function afterUpdating(err) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(200);
+    }
+
   }
-  
 }
