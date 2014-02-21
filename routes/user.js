@@ -4,21 +4,36 @@ var models = require('../models');
 
 
 exports.saveUser = function(req, res) {
+
   var form_data = req.body;
   var id = form_data.id;
   var name = form_data.name;
 
-  req.session.userID = parseInt(id);
+  models.User
+    .find({"id": id})
+    .exec(afterQuery);
 
-  var newUser = new models.User({
-    "id": id,
-    "name": name,
-    "sessionkey": id
-  });
-  newUser.save(afterSaving);
-  function afterSaving(err) { // this is a callback
+  function afterQuery(err, user) { // this is a callback
     if(err) {console.log(err); res.send(500); }
-    res.send(200);
+    console.log(user);
+    console.log(user.length);
+    if(user.length == 0) {
+      req.session.userID = parseInt(id);
+
+      var newUser = new models.User({
+        "id": id,
+        "name": name,
+        "sessionkey": id
+      });
+      newUser.save(afterSaving);
+      function afterSaving(err) { // this is a callback
+        if(err) {console.log(err); res.send(500); }
+        res.send(200);
+      }
+    } else {
+      req.session.userID = parseInt(id);
+      res.send(200);
+    }
   }
 }
 
@@ -27,29 +42,41 @@ exports.addFriends = function(req, res) {
   var userID = req.session.userID;
   if(userID > 0) {
 
-    var form_data = req.body.friends.data;
+    models.Friend
+    .find({"owner_id": userID})
+    .exec(afterQuery);
 
-    for(var i = 0; i < form_data.length; i++) {
-      var location = '';
-      if (typeof form_data[i].location != 'undefined') {
-        location = form_data[i].location.name;
-      }
-      var newUser = new models.Friend({
-        "owner_id": parseInt(userID),
-        "first_name": form_data[i].first_name,
-        "last_name": form_data[i].last_name,
-        "image": form_data[i].picture.data.url,
-        "location": location,
-        "id": form_data[i].id,
-        "in_queue": 0
-      });
-      newUser.save(afterSaving);
-    }
-
-    function afterSaving(err) { // this is a callback
+    function afterQuery(err, user) { // this is a callback
       if(err) {console.log(err); res.send(500); }
+      if(user.length == 0) {
+        var form_data = req.body.friends.data;
+
+        for(var i = 0; i < form_data.length; i++) {
+          var location = '';
+          if (typeof form_data[i].location != 'undefined') {
+            location = form_data[i].location.name;
+          }
+          var newUser = new models.Friend({
+            "owner_id": parseInt(userID),
+            "first_name": form_data[i].first_name,
+            "last_name": form_data[i].last_name,
+            "image": form_data[i].picture.data.url,
+            "location": location,
+            "id": form_data[i].id,
+            "in_queue": 0
+          });
+          newUser.save(afterSaving);
+        }
+
+        function afterSaving(err) { // this is a callback
+          if(err) {console.log(err); res.send(500); }
+        }
+      res.send(200);
+      }
+    else {
+      res.send(200);
     }
-    res.send(200);
+    }
   } else {
     res.send(500);
   }

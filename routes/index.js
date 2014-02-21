@@ -22,9 +22,7 @@ exports.view = function(req, res){
 
     function afterQuery2(err, queued) {
       if(err) console.log(err);
-
-      console.log(users);
-
+      
       var queue = [];
 
       res.render('index', {
