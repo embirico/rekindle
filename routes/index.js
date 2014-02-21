@@ -8,8 +8,8 @@ var models = require('../models');
 exports.view = function(req, res){
 
   numberSwipeCards = 5;
-  models.User
-    .find({})
+  models.Friend
+    .find({"owner_id": req.session.userID})
     .limit(numberSwipeCards)
     .exec(afterQuery);
 

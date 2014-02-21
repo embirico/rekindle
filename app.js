@@ -78,6 +78,7 @@ app.post('/getSwipes', swipes.getMore);
 app.get('/autocomplete.json', search.getAutocompleteJSON);
 
 app.post('/saveFriends', user.addFriends);
+app.post('/saveUser', user.saveUser);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

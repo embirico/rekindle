@@ -11,8 +11,8 @@ exports.getMore = function(req, res){
 	var offset = parseInt(req.body.offset);
 	var numerNewCards = parseInt(req.body.numerNewCards);
 
-	models.User
-    .find({})
+	models.Friend
+    .find({"owner_id": req.session.userID})
     .skip(offset)
     .limit(numerNewCards)
     .exec(afterQuery);

@@ -22,10 +22,13 @@ var database_uri = process.env.MONGOLAB_URI || local_database_uri
 mongoose.connect(database_uri);
 
 // Remove all db stuff
+models.Friend
+  .find()
+  .remove();
 models.User
   .find()
   .remove();
-
+  
 mongoose.connection.close();
 
 // Do the initialization here

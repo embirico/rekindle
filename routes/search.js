@@ -3,6 +3,8 @@
  * GET the search page
  */
 
+var models = require('../models');
+
 exports.view = function(req, res){
 	// Check for query
 	var searchWords = req.query.search
@@ -15,13 +17,19 @@ exports.view = function(req, res){
 
 exports.getAutocompleteJSON = function(req, res) {
 
-  var user_data = require("../user_data.json");
-  var autocompleteArray = user_data.candidates;
-  var autocompleteJSON = [];
-  for(var i = 0; i < autocompleteArray.length; i++) {
-    var text = autocompleteArray[i].first_name + " " + autocompleteArray[i].last_name;
-    autocompleteJSON.unshift({name: text, id: autocompleteArray[i].id});
+  models.Friend
+    .find({"owner_id": req.session.userID})
+    .exec(afterQuery);
+
+  function afterQuery(err, users) {
+    if(err) console.log(err);
+
+    var autocompleteJSON = [];
+    for(var i = 0; i < users.length; i++) {
+      var text = users[i].first_name + " " + users[i].last_name;
+      autocompleteJSON.unshift({name: text, id: users[i].id});
+    }
+    res.send(autocompleteJSON);
   }
-  res.send(autocompleteJSON);
 
 };

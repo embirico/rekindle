@@ -21,8 +21,7 @@
       // The response object is returned with a status field that lets the app know the current
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
-      testAPI();
-      addFriendsList();
+      saveUserData();
       // TODO: response.redirect('www.google.com');
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into the app, so we call
@@ -55,10 +54,13 @@
 
   // Here we run a very simple test of the Graph API after login is successful. 
   // This testAPI() function is only called in those cases. 
-  function testAPI(req, res) {
+  function saveUserData(req, res) {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Good to see you, ' + response.name + '.');
+      $.post('/saveUser', {id: response.id, name: response.name}, function(data) {
+        addFriendsList();
+      });
     });
     // response.redirect('www.google.com');
   }
@@ -67,7 +69,6 @@
     console.log('Adding friends list to json file');
     //do adding friends here
      FB.api('/me/friends?fields=id,first_name,last_name,picture.type(large),location,birthday', function(response){
-      console.log("friend's pic is at: "+ response.data[0].picture.data.url);
       //for each 
       $.post('/saveFriends', {friends: response}, function(data) {
         window.location.href = '/'; // reload the page
