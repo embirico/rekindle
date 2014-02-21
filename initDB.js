@@ -23,12 +23,12 @@ mongoose.connect(database_uri);
 
 // Remove all db stuff
 models.Friend
-  .find()
+  .find({})
   .remove();
 models.User
-  .find()
+  .find({})
   .remove();
-  
+
 mongoose.connection.close();
 
 // Do the initialization here

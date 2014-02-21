@@ -7,6 +7,10 @@ var models = require('../models');
 
 exports.view = function(req, res){
 
+  if(typeof req.session.userID == 'undefined') {
+    res.redirect("/login");
+  }
+
   numberSwipeCards = 5;
   models.Friend
     .find({"owner_id": req.session.userID, "in_queue":0})
@@ -22,7 +26,7 @@ exports.view = function(req, res){
 
     function afterQuery2(err, queued) {
       if(err) console.log(err);
-      
+
       var queue = [];
 
       res.render('index', {
