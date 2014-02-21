@@ -26,6 +26,8 @@ models.User
   .find()
   .remove();
 
+mongoose.connection.close();
+
 // Do the initialization here
 
 // Step 1: load the JSON data
