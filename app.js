@@ -11,6 +11,8 @@ var path = require('path');
 var handlebars = require('express3-handlebars');
 var lessMiddleware = require("less-middleware");
 
+//var mongoose = require('mongoose');
+
 // Routes
 var index = require('./routes/index');
 var search = require('./routes/search');
@@ -20,6 +22,13 @@ var login = require('./routes/login');
 
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
+
+// Connect to the Mongo database, whether locally or on Heroku
+// MAKE SURE TO CHANGE THE NAME FROM 'lab7' TO ... IN OTHER PROJECTS
+/*var local_database_name = 'rekindle';
+var local_database_uri  = 'mongodb://localhost/' + local_database_name
+var database_uri = process.env.MONGOLAB_URI || local_database_uri
+mongoose.connect(database_uri);*/
 
 
 var app = express();

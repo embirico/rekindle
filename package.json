@@ -2,7 +2,6 @@
   "name": "static-rekindle",
   "version": "0.0.1",
   "author": "Justin Womersley, Nicole Zhu, Alexander Embiricos",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/embirico/static-rekindle"
@@ -14,7 +13,10 @@
   "dependencies": {
     "express": "3.x",
     "express3-handlebars": "*",
-    "less-middleware": "*"
+    "less-middleware": "~0.1.15",
+    "mongodb": "~1.3.23",
+    "mongoose": "~3.8.7",
+    "mongod": "~1.1.1"
   },
   "engines": {
     "node": "0.10.x"
