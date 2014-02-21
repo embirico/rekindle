@@ -6,7 +6,7 @@
 			<!-- Provide background image url as a style for swipe-card-img. -->
 			<!-- This allows use of non-square images with proper scaling. -->
 			<!-- We can use img if the server guarantees square images. -->
-			<div class="swipe-card-image" style="background-image: url('\{{picture.data.url}}')">
+			<div class="swipe-card-image" style="background-image: url('\{{image}}')">
 			</div>
 			<div class="swipe-card-info">
 				<div class="top-line">
@@ -14,7 +14,7 @@
 					<a href="#profile">View more</a>
 				</div>
 				\{{#if location.name.length}}
-					<p><i class="fa fa-map-marker fa-fw"></i> \{{location.name}}</p>
+					<p><i class="fa fa-map-marker fa-fw"></i> \{{location}}</p>
 				\{{else}}
 					<p>&nbsp;</p>
 				\{{/if}}

@@ -4,14 +4,12 @@
  */
 
 // libraries
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var lessMiddleware = require("less-middleware");
-
-//var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 // Routes
 var index = require('./routes/index');
@@ -19,17 +17,17 @@ var search = require('./routes/search');
 var help = require('./routes/help');
 var settings = require('./routes/settings');
 var login = require('./routes/login');
+var user = require('./routes/user');
 
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
 
 // Connect to the Mongo database, whether locally or on Heroku
 // MAKE SURE TO CHANGE THE NAME FROM 'lab7' TO ... IN OTHER PROJECTS
-/*var local_database_name = 'rekindle';
+var local_database_name = 'rekindle';
 var local_database_uri  = 'mongodb://localhost/' + local_database_name
 var database_uri = process.env.MONGOLAB_URI || local_database_uri
-mongoose.connect(database_uri);*/
-
+mongoose.connect(database_uri);
 
 var app = express();
 
@@ -78,6 +76,8 @@ app.get('/login', login.view);
 // Ajax URLs
 app.post('/getSwipes', swipes.getMore);
 app.get('/autocomplete.json', search.getAutocompleteJSON);
+
+app.post('/saveFriends', user.addFriends);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

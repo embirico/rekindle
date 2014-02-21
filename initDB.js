@@ -21,6 +21,10 @@ var local_database_uri  = 'mongodb://localhost/' + local_database_name
 var database_uri = process.env.MONGOLAB_URI || local_database_uri
 mongoose.connect(database_uri);
 
+// Remove all db stuff
+models.User
+  .find()
+  .remove();
 
 // Do the initialization here
 

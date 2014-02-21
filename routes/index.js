@@ -3,22 +3,35 @@
  * GET the home/intro/login page
  */
 
+var models = require('../models');
+
 exports.view = function(req, res){
 
-  // Load JSON data from static file
-  var user_data = require("../user_data.json");
-  var queue = user_data.queue;
-  var numberSwipeCards = 5;
-  var swipes = user_data.candidates.slice(0,numberSwipeCards);
+  numberSwipeCards = 5;
+  models.User
+    .find({})
+    .limit(numberSwipeCards)
+    .exec(afterQuery);
 
-  res.render('index', {
-  	title: 'Rekindle',
-  	queue: queue,
-  	queue_string: JSON.stringify(queue),
-  	candidates: swipes,
-  	candidates_string: JSON.stringify(swipes),
-    showQueueButton: true,
-    numberSwipeCards: numberSwipeCards
-  });
+  function afterQuery(err, users) {
+    if(err) console.log(err);
+
+    console.log(users);
+
+    var queue = [];
+
+    res.render('index', {
+      title: 'Rekindle',
+      queue: queue,
+      queue_string: JSON.stringify(queue),
+      candidates: users,
+      candidates_string: JSON.stringify(users),
+      showQueueButton: true,
+      numberSwipeCards: numberSwipeCards
+    });
+
+  }
+
+
   
 };
