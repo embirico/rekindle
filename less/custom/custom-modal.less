@@ -1,0 +1,25 @@
+
+
+#modal{
+	position: absolute;
+	z-index: 9001;
+}
+
+.modal-backdrop {
+	position: absolute;
+	z-index: 9000;
+}
+
+/*overriding bootstraps default opacity of 0.5*/
+.modal-backdrop.in {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+.modal-backdrop.message {
+	color: white;
+}
+
+body .message{
+	color: white;
+}

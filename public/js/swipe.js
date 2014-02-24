@@ -35,6 +35,24 @@ function initializePage() {
 	renderStack();
   	renderQueue();
 
+  	// $('#modal').modal('hide');
+  	
+  	$(".show-modal").click(function(e){
+  		e.preventDefault();
+  		console.log("clicked!");
+  		$('#modal').modal('toggle');
+
+  	});
+
+
+	// $(".swipe-card-image").click(function(){
+ //  		console.log("clicked!");
+ //  		$('#modal').modal('toggle');
+ //  	});
+
+	
+
+
   	$("#card_container").swipe( {
         swipeStatus:function(event, phase, direction, distance, duration, fingers)
         {
@@ -72,6 +90,12 @@ function initializePage() {
   	$("#queue-back-link").click(function() {
   		$("#queueIndicator").click();
   	});
+
+
+
+
+  	
+
 
 }
 
