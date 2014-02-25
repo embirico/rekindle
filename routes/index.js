@@ -1,8 +1,9 @@
 
 /*
- * GET the home/intro/login page
+ * GET the main swipe page
  */
 
+var async = require('async');
 var models = require('../models');
 var user = require('./user');
 
@@ -11,36 +12,33 @@ exports.view = function(req, res){
   // Check session is valid
   userID = user.checkSession(req, res);
 
-  numberSwipeCards = 5;
-  models.Friend
-    .find({"owner_id": userID, "in_queue":0})
-    .limit(numberSwipeCards)
-    .exec(afterQuery);
+  var numberSwipeCards = 5;
+  var offset = 0;
 
-  function afterQuery(err, users) {
-    if(err) console.log(err);
+  // For doing 2 mongoose queries in parallel (since they are asynchronous, have to do this)
+  async.parallel({
+      swipes: function(callback){
+          user.getSwipeFriends(req, res, userID, numberSwipeCards, offset, callback);
+      },
+      queued: function(callback){
+          user.getQueuedFriends(req, res, userID, callback);
+      }
+  },
+  function(err, results) {
 
-    models.Friend
-      .find({"owner_id": userID, "in_queue":1})
-      .exec(afterQuery2);
+    // results now equals: { swipes: {...}, queued: {...} }
+    queuedFriends = results.queued;
+    swipeFriends = results.swipes;
 
-    function afterQuery2(err, queued) {
-      if(err) console.log(err);
+    // Render the page
+    res.render('index', {
+      title: 'Rekindle',
+      queue_string: JSON.stringify(queuedFriends),
+      candidates_string: JSON.stringify(swipeFriends),
+      showQueueButton: true,
+      numberSwipeCards: numberSwipeCards
+    });
 
-      var queue = [];
+  });
 
-      res.render('index', {
-        title: 'Rekindle',
-        queue: queue,
-        queue_string: JSON.stringify(queued),
-        candidates: users,
-        candidates_string: JSON.stringify(users),
-        showQueueButton: true,
-        numberSwipeCards: numberSwipeCards
-      });
-    }
-  }
-
-
-  
 };

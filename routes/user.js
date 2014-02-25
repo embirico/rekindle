@@ -2,16 +2,15 @@
 
 var models = require('../models');
 
-
 /*
   Checks the user's session;
   If they are not logged in, redirects them to the login page
   If they are logged in, returns their userID
-  TODO create a session string of randomlu generated characters linked to users in DB
+  TODO create a session string of randomly generated characters linked to users in DB
 */
 exports.checkSession = function(req, res) {
   if(typeof req.session.userID == 'undefined') {
-    res.redirect("/login");
+    return res.redirect("/login");
   } else {
     return req.session.userID;
   }
@@ -34,8 +33,8 @@ exports.saveUser = function(req, res) {
 
   function afterQuery(err, user) { // this is a callback
     if(err) {console.log(err); res.send(500); }
-    console.log(user);
-    console.log(user.length);
+    //console.log(user);
+    //console.log(user.length);
     if(user.length == 0) {
       req.session.userID = parseInt(id);
 
@@ -97,9 +96,9 @@ exports.addFriends = function(req, res) {
         }
       res.send(200);
       }
-    else {
-      res.send(200);
-    }
+      else {
+        res.send(200);
+      }
     }
   } else {
     res.send(500);
@@ -139,6 +138,43 @@ exports.updateQueue = function(req, res) {
       if(err) {console.log(err); res.send(500); }
       res.send(200);
     }
+  }
+}
 
+
+/*
+Calls the callback with the JSON array of queued friends
+*/
+exports.getQueuedFriends = function(req, res, userID, callback) {
+    models.Friend
+    .find({"owner_id": userID, "in_queue":1})
+    .exec(afterQuery);
+
+  function afterQuery(err, queued) {
+    if(err) {
+      callback(err);
+    } else {
+      callback(null, queued);
+    }
+  }
+}
+
+
+/*
+Calls the callback with the JSON array of friends to swipe
+*/
+exports.getSwipeFriends = function(req, res, userID, numberSwipeCards, offset, callback) {
+  models.Friend
+    .find({"owner_id": userID, "in_queue":0})
+    .skip(offset)
+    .limit(numberSwipeCards)
+    .exec(afterQuery);
+
+  function afterQuery(err, users) {
+    if(err) {
+      callback(err);
+    } else {
+      callback(null, users);
+    }
   }
 }
