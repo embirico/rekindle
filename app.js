@@ -21,6 +21,8 @@ var user = require('./routes/user');
 
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
+var modal = require('./routes/modal.js');
+
 
 // Connect to the Mongo database, whether locally or on Heroku
 // MAKE SURE TO CHANGE THE NAME FROM 'lab7' TO ... IN OTHER PROJECTS
@@ -78,6 +80,7 @@ app.post('/getSwipes', swipes.getMore);
 app.get('/autocomplete.json', search.getAutocompleteJSON);
 app.post('/updateQueue', user.updateQueue);
 
+app.get('/getPhotos', modal.getPhotos);
 
 app.post('/saveFriends', user.addFriends);
 app.post('/saveUser', user.saveUser);
