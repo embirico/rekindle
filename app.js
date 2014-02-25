@@ -22,6 +22,7 @@ var user = require('./routes/user');
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
 var modal = require('./routes/modal.js');
+var namethat = require('./routes/modal.js');
 
 
 // Connect to the Mongo database, whether locally or on Heroku

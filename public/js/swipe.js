@@ -91,12 +91,6 @@ function initializePage() {
   		$("#queueIndicator").click();
   	});
 
-
-
-
-  	
-
-
 }
 
 // Function to call when shake occurs
