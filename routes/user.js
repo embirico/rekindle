@@ -3,6 +3,25 @@
 var models = require('../models');
 
 
+/*
+  Checks the user's session;
+  If they are not logged in, redirects them to the login page
+  If they are logged in, returns their userID
+  TODO create a session string of randomlu generated characters linked to users in DB
+*/
+exports.checkSession = function(req, res) {
+  if(typeof req.session.userID == 'undefined') {
+    res.redirect("/login");
+  } else {
+    return req.session.userID;
+  }
+}
+
+
+/*
+  Saves the users details the first time they log in and sets their session.
+  If they have already signed up, it deosn't do anything, but sets the session
+*/
 exports.saveUser = function(req, res) {
 
   var form_data = req.body;
@@ -37,6 +56,11 @@ exports.saveUser = function(req, res) {
   }
 }
 
+
+/*
+  After the user logs in, this exports all their friends data into the db
+  If their friends have already been imported, this does nothing.
+*/
 exports.addFriends = function(req, res) {
 
   var userID = req.session.userID;
@@ -82,6 +106,10 @@ exports.addFriends = function(req, res) {
   }
 }
 
+
+/*
+Updates the user's queue, adding or removing a friend
+*/
 exports.updateQueue = function(req, res) {
   var form_data = req.body;
   var friendID = parseInt(form_data.id);

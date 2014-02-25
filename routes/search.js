@@ -3,9 +3,14 @@
  * GET the search page
  */
 
+var user = require('./user');
 var models = require('../models');
 
 exports.view = function(req, res){
+
+  // Check session is valid
+  userID = user.checkSession(req, res);
+
 	// Check for query
 	var searchWords = req.query.search
 
@@ -17,8 +22,11 @@ exports.view = function(req, res){
 
 exports.getAutocompleteJSON = function(req, res) {
 
+  // Check session is valid
+  userID = user.checkSession(req, res);
+
   models.Friend
-    .find({"owner_id": req.session.userID})
+    .find({"owner_id": userID})
     .exec(afterQuery);
 
   function afterQuery(err, users) {

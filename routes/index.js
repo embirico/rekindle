@@ -4,16 +4,16 @@
  */
 
 var models = require('../models');
+var user = require('./user');
 
 exports.view = function(req, res){
 
-  if(typeof req.session.userID == 'undefined') {
-    res.redirect("/login");
-  }
+  // Check session is valid
+  userID = user.checkSession(req, res);
 
   numberSwipeCards = 5;
   models.Friend
-    .find({"owner_id": req.session.userID, "in_queue":0})
+    .find({"owner_id": userID, "in_queue":0})
     .limit(numberSwipeCards)
     .exec(afterQuery);
 
@@ -21,7 +21,7 @@ exports.view = function(req, res){
     if(err) console.log(err);
 
     models.Friend
-      .find({"owner_id": req.session.userID, "in_queue":1})
+      .find({"owner_id": userID, "in_queue":1})
       .exec(afterQuery2);
 
     function afterQuery2(err, queued) {
