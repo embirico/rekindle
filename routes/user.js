@@ -86,7 +86,8 @@ exports.addFriends = function(req, res) {
             "image": form_data[i].picture.data.url,
             "location": location,
             "id": form_data[i].id,
-            "in_queue": 0
+            "in_queue": 0,
+            "score" : 0
           });
           newUser.save(afterSaving);
         }
@@ -104,6 +105,29 @@ exports.addFriends = function(req, res) {
     res.send(500);
   }
 }
+
+
+/*
+Updates the user's swipe list given a action
+*/
+exports.updateSwipe = function(req, res) {
+  var form_data = req.body;
+  var friendID = parseInt(form_data.id);
+  var action = form_data.action;
+
+  if(action == "swipeLeft") { 
+    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+      , update = {$inc: {"score": -2000}}
+      , options = { multi: true };
+
+    models.Friend.update(conditions, update, options, afterUpdating);
+    function afterUpdating(err) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(200);
+    }
+  }
+}
+
 
 
 /*
@@ -125,12 +149,10 @@ exports.updateQueue = function(req, res) {
       if(err) {console.log(err); res.send(500); }
       res.send(200);
     }
-
-
   } else if(action == "remove") {
 
     var conditions = { "owner_id" : req.session.userID, "id": friendID }
-      , update = { "in_queue": 0}
+      , update = { "in_queue": 0, $inc: {"score": 500} }
       , options = { multi: true };
 
     models.Friend.update(conditions, update, options, afterUpdating);
@@ -138,6 +160,17 @@ exports.updateQueue = function(req, res) {
       if(err) {console.log(err); res.send(500); }
       res.send(200);
     }
+  } else if(action == "delete") {
+    
+    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+      , update = { "in_queue": 0, $inc: {"score": -500} }
+      , options = { multi: true };
+
+    models.Friend.update(conditions, update, options, afterUpdating);
+    function afterUpdating(err) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(200);
+    }    
   }
 }
 
@@ -166,6 +199,7 @@ Calls the callback with the JSON array of friends to swipe
 exports.getSwipeFriends = function(req, res, userID, numberSwipeCards, offset, callback) {
   models.Friend
     .find({"owner_id": userID, "in_queue":0})
+    .sort({"score":-1})
     .skip(offset)
     .limit(numberSwipeCards)
     .exec(afterQuery);

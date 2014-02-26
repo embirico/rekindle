@@ -79,6 +79,7 @@ app.get('/login', login.view);
 app.post('/getSwipes', swipes.getMore);
 app.get('/autocomplete.json', search.getAutocompleteJSON);
 app.post('/updateQueue', user.updateQueue);
+app.post('/updateSwipes', user.updateSwipe);
 
 app.get('/getPhotos', modal.getPhotos);
 

@@ -23,10 +23,8 @@ mongoose.connect(database_uri);
 
 // Remove all db stuff
 models.Friend
-  .find({})
   .remove();
 models.User
-  .find({})
   .remove();
 
 mongoose.connection.close();
