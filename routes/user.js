@@ -6,20 +6,20 @@ var models = require('../models');
   Checks the user's session;
   If they are not logged in, redirects them to the login page
   If they are logged in, returns their userID
-  TODO create a session string of randomly generated characters linked to users in DB
+  TODO create a cookies string of randomly generated characters linked to users in DB
 */
 exports.checkSession = function(req, res) {
-  if(typeof req.session.userID == 'undefined') {
+  if(typeof req.cookies.userID == 'undefined') {
     return res.redirect("/login");
   } else {
-    return req.session.userID;
+    return req.cookies.userID;
   }
 }
 
 
 /*
-  Saves the users details the first time they log in and sets their session.
-  If they have already signed up, it deosn't do anything, but sets the session
+  Saves the users details the first time they log in and sets their cookies.
+  If they have already signed up, it deosn't do anything, but sets the cookies
 */
 exports.saveUser = function(req, res) {
 
@@ -36,7 +36,8 @@ exports.saveUser = function(req, res) {
     //console.log(user);
     //console.log(user.length);
     if(user.length == 0) {
-      req.session.userID = parseInt(id);
+      // Set session
+      res.cookie('userID', parseInt(id));
 
       var newUser = new models.User({
         "id": id,
@@ -49,11 +50,14 @@ exports.saveUser = function(req, res) {
         res.send(200);
       }
     } else {
-      req.session.userID = parseInt(id);
+      // Set session
+      res.cookie('userID', parseInt(id));
       res.send(200);
     }
   }
 }
+
+
 
 
 /*
@@ -62,7 +66,7 @@ exports.saveUser = function(req, res) {
 */
 exports.addFriends = function(req, res) {
 
-  var userID = req.session.userID;
+  var userID = req.cookies.userID;
   if(userID > 0) {
 
     models.Friend
@@ -116,7 +120,7 @@ exports.updateSwipe = function(req, res) {
   var action = form_data.action;
 
   if(action == "swipeLeft") { 
-    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+    var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = {$inc: {"score": -2000}}
       , options = { multi: true };
 
@@ -140,7 +144,7 @@ exports.updateQueue = function(req, res) {
 
   if(action == "add") {
 
-    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+    var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = { "in_queue": 1}
       , options = { multi: true };
 
@@ -151,7 +155,7 @@ exports.updateQueue = function(req, res) {
     }
   } else if(action == "remove") {
 
-    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+    var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = { "in_queue": 0, $inc: {"score": 500} }
       , options = { multi: true };
 
@@ -162,7 +166,7 @@ exports.updateQueue = function(req, res) {
     }
   } else if(action == "delete") {
     
-    var conditions = { "owner_id" : req.session.userID, "id": friendID }
+    var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = { "in_queue": 0, $inc: {"score": -500} }
       , options = { multi: true };
 
@@ -190,6 +194,34 @@ exports.getQueuedFriends = function(req, res, userID, callback) {
       callback(null, queued);
     }
   }
+}
+
+
+/*
+
+*/
+exports.getFriend = function(req, res) {
+  userID = req.cookies.userID;
+  var form_data = req.body;
+  var friendID = parseInt(form_data.id);
+
+  var conditions = { "owner_id" : userID, "id": friendID }
+    , update = { "in_queue": 0, $inc: {"score": 2000} }
+    , options = { multi: true };
+
+  models.Friend.update(conditions, update, options, afterUpdating);
+  function afterUpdating(err) { // this is a callback
+    if(err) {console.log(err); res.send(500); }
+
+    models.Friend
+    .find({"owner_id": userID, "id": friendID})
+    .exec(afterQuery); 
+
+    function afterQuery(err, user) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(user[0]);
+    }
+  }    
 }
 
 

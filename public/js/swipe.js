@@ -41,7 +41,6 @@ function initializePage() {
   		e.preventDefault();
   		console.log("clicked!");
   		$('#modal').modal('toggle');
-
   	});
 
 
@@ -91,18 +90,11 @@ function initializePage() {
   		$("#queueIndicator").click();
   	});
 
-
-
-
-  	
-
-
 }
 
 // Function to call when shake occurs
 function shakeEventDidOccur () {
 
-    // Put your own code here etc.
 	if(addedToRemoved) {
 		if (confirm("Undo swipe left?")) {
 			addedToRemoved = false;
@@ -295,7 +287,6 @@ function initializeQueueLinks() {
 function renderStack() {
 	// Render out the list of people in the queue
 	var cardsHtml = '';
-	$("#card_container").html("");
 	$.each(candidatesJSON, function(index, candidate) {
 		cardsHtml = cardsHtml + compiledCardTemplate(candidate);
 		});
