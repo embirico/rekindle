@@ -26,6 +26,8 @@ $(document).ready(function () {
 	    	candidatesJSON.unshift(personObject);
 	    	renderStack();
 	    	setTimeout(animateStack,500);
+	    	$("#menu-button").focus();
+	    	$("#search-input").blur();
 	        $("#menu-button").click();
 	        $('#search-input').typeahead('val', '');
 	        addedToQueue = false;
