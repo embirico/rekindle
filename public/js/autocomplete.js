@@ -23,9 +23,41 @@ $(document).ready(function () {
 	$('#search-input').on("typeahead:selected", function(object, data) {
 		// Get the person's data from the server
 		$.post('/getFriend', {id: data.id}, function(personObject) {
+
+			console.log(personObject.id);
+			// Check if person is already in the stack, remove them if they are
+			var swipedIndex = -1;
+			$.each(candidatesJSON, function(index, candidate) {
+						console.log("c:"+candidate.id);
+		                if(candidate.id == personObject.id) {
+		                	swipedIndex = index;
+		                	console.log("Found in stack at index:"+swipedIndex);
+		                }
+		            });
+			if(swipedIndex >= 0) {
+				console.log("Removing from stack");
+				candidatesJSON.splice(swipedIndex,1);
+			}
+
+			// Check if person is in the queue, remove them if they are
+			var swipedIndex = -1;
+			$.each(queueJSON, function(index, queueFriend) {
+		                if(queueFriend.id == personObject.id) {
+		                	swipedIndex = index;
+		                	console.log("Found in queue");
+		                }
+		            });
+			if(swipedIndex >= 0) {
+				console.log("Removing from queue");
+				queueJSON.splice(swipedIndex,1);
+				renderQueue();
+			}
+
+			// Add new person to the stack
 	    	candidatesJSON.unshift(personObject);
 	    	renderStack();
-	    	setTimeout(animateStack,500);
+
+	    	setTimeout(animateStack, 500);
 	    	$("#menu-button").focus();
 	    	$("#search-input").blur();
 	        $("#menu-button").click();
