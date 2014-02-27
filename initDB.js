@@ -24,7 +24,8 @@ mongoose.connect(database_uri);
 // Remove all db stuff
 models.Friend
   .find({})
-  .remove();
+  .remove()
+  .exec();
 models.User
   .find({})
   .remove();

@@ -8,7 +8,8 @@ var FriendSchema = new Mongoose.Schema({
   "image": String,
   "location": String,
   "id": String,
-  "in_queue": Number
+  "in_queue": Number,
+  "score": Number
 });
 
 exports.Friend = Mongoose.model('Friend', FriendSchema);

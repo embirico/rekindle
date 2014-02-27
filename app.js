@@ -77,8 +77,11 @@ app.get('/login', login.view);
 
 // Ajax URLs
 app.post('/getSwipes', swipes.getMore);
+app.post('/getFriend', user.getFriend);
 app.get('/autocomplete.json', search.getAutocompleteJSON);
 app.post('/updateQueue', user.updateQueue);
+app.post('/updateSwipes', user.updateSwipe);
+
 
 app.post('/saveFriends', user.addFriends);
 app.post('/saveUser', user.saveUser);

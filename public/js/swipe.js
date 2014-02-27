@@ -41,7 +41,6 @@ function initializePage() {
   		e.preventDefault();
   		console.log("clicked!");
   		$('#modal').modal('toggle');
-
   	});
 
 
@@ -96,7 +95,6 @@ function initializePage() {
 // Function to call when shake occurs
 function shakeEventDidOccur () {
 
-    // Put your own code here etc.
 	if(addedToRemoved) {
 		if (confirm("Undo swipe left?")) {
 			addedToRemoved = false;
@@ -155,11 +153,16 @@ function fullLeft() {
 	candidatesJSON.splice(swipedIndex,1);
 	removedJSON.unshift(swipedCard);
 
+	// Push this action to the server via AJAX
+	$.post('/updateSwipes', {action: "swipeLeft", id: swipedCard.id}, function(data) {
+        console.log("swipe left sent to server");
+      });
+
+
 	addedToQueue = false;
 	addedToStack = false;
 	addedToRemoved = true;
 
-	// TODO, push this action to the server via AJAX
 	time_interval = setInterval(loadNewCard, 100);
 }
 
@@ -237,7 +240,7 @@ function initializeQueueLinks() {
 		// Remove this person from the queued JSON
 		queueJSON.splice(personIndex,1);
 
-		// Add the person to the queueJSON
+		// Add the person to the swipeJSON
 		candidatesJSON.unshift(personObject);
 
 		// Push this action to the server via AJAX
@@ -256,12 +259,34 @@ function initializeQueueLinks() {
 		// Move back to full page view
 		$("#queueIndicator").click();
 	});
+
+	// Initialize delete from queue links
+	$(".delete-queue-link").click(function() {
+		var personsID = $(this).attr("data-id");
+		console.log("Remove id:"+personsID);
+		var personIndex = -1;
+		var personObject;
+		$.each(queueJSON, function(index, queuedFriend) {
+	                if(queuedFriend.id == personsID) {
+	                	personObject = queuedFriend;
+	                	personIndex = index;
+	                }
+	            });
+		// Remove this person from the queued JSON
+		queueJSON.splice(personIndex,1);
+	  	renderQueue();
+
+		// Push this action to the server via AJAX
+		$.post('/updateQueue', {action: "delete", id: personObject.id}, function(data) {
+	        console.log("deleted from queue on server");
+	      });
+	});
+
 }
 
 function renderStack() {
 	// Render out the list of people in the queue
 	var cardsHtml = '';
-	$("#card_container").html("");
 	$.each(candidatesJSON, function(index, candidate) {
 		cardsHtml = cardsHtml + compiledCardTemplate(candidate);
 		});
