@@ -6,22 +6,6 @@ var models = require('../models');
   Checks the user's session;
   If they are not logged in, redirects them to the login page
   If they are logged in, returns their userID
-<<<<<<< HEAD
-  TODO create a session string of randomly generated characters linked to users in DB
-*/
-exports.checkSession = function(req, res) {
-  if(typeof req.session.userID == 'undefined') {
-    return res.redirect("/login");
-  } else {
-    return req.session.userID;
-  }
-}
-
-
-/*
-  Saves the users details the first time they log in and sets their session.
-  If they have already signed up, it deosn't do anything, but sets the session
-=======
   TODO create a cookies string of randomly generated characters linked to users in DB
 */
 exports.checkSession = function(req, res) {
@@ -36,7 +20,6 @@ exports.checkSession = function(req, res) {
 /*
   Saves the users details the first time they log in and sets their cookies.
   If they have already signed up, it deosn't do anything, but sets the cookies
->>>>>>> de36889529005e6ce7163c5dd7e966ca472f2c86
 */
 exports.saveUser = function(req, res) {
 
@@ -75,23 +58,15 @@ exports.saveUser = function(req, res) {
 }
 
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> de36889529005e6ce7163c5dd7e966ca472f2c86
 /*
   After the user logs in, this exports all their friends data into the db
   If their friends have already been imported, this does nothing.
 */
 exports.addFriends = function(req, res) {
 
-<<<<<<< HEAD
-  var userID = req.session.userID;
-  console.log("userid: "+userID);
-=======
   var userID = req.cookies.userID;
->>>>>>> de36889529005e6ce7163c5dd7e966ca472f2c86
   if(userID > 0) {
 
     models.Friend
@@ -137,8 +112,6 @@ exports.addFriends = function(req, res) {
 
 
 /*
-<<<<<<< HEAD
-=======
 Updates the user's swipe list given a action
 */
 exports.updateSwipe = function(req, res) {
@@ -162,7 +135,6 @@ exports.updateSwipe = function(req, res) {
 
 
 /*
->>>>>>> de36889529005e6ce7163c5dd7e966ca472f2c86
 Updates the user's queue, adding or removing a friend
 */
 exports.updateQueue = function(req, res) {
@@ -192,40 +164,6 @@ exports.updateQueue = function(req, res) {
       if(err) {console.log(err); res.send(500); }
       res.send(200);
     }
-<<<<<<< HEAD
-  }
-}
-
-
-/*
-Calls the callback with the JSON array of queued friends
-*/
-exports.getQueuedFriends = function(req, res, userID, callback) {
-    models.Friend
-    .find({"owner_id": userID, "in_queue":1})
-    .exec(afterQuery);
-
-  function afterQuery(err, queued) {
-    if(err) {
-      callback(err);
-    } else {
-      callback(null, queued);
-    }
-  }
-}
-
-
-/*
-Calls the callback with the JSON array of friends to swipe
-*/
-exports.getSwipeFriends = function(req, res, userID, numberSwipeCards, offset, callback) {
-  models.Friend
-    .find({"owner_id": userID, "in_queue":0})
-    .skip(offset)
-    .limit(numberSwipeCards)
-    .exec(afterQuery);
-
-=======
   } else if(action == "delete") {
     
     var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
@@ -298,7 +236,6 @@ exports.getSwipeFriends = function(req, res, userID, numberSwipeCards, offset, c
     .limit(numberSwipeCards)
     .exec(afterQuery);
 
->>>>>>> de36889529005e6ce7163c5dd7e966ca472f2c86
   function afterQuery(err, users) {
     if(err) {
       callback(err);

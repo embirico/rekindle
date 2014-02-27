@@ -28,10 +28,12 @@ models.Friend
   .exec();
 models.User
   .find({})
-  .remove();
+  .remove()
+  .exec();
 models.Photo
   .find({})
-  .remove();
+  .remove()
+  .exec();
 
 mongoose.connection.close();
 

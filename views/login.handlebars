@@ -31,15 +31,12 @@
       // like this, for two reasons:
       // (1) JavaScript created popup windows are blocked by most browsers unless they 
       // result from direct interaction from people using the app (such as a mouse click)
-<<<<<<< HEAD
       // (2) it is a bad experience to be continually prompted to login upon page load
 
       FB.login(function(){}, {scope: 'user_photos,friends_photos'})
-=======
       // (2) it is a bad experience to be continually prompted to login upon page load.
       console.log("Not authorized");
       FB.login();
->>>>>>> de36889529005e6ce7163c5dd7e966ca472f2c86
     } else {
       // In this case, the person is not logged into Facebook, so we call the login() 
       // function to prompt them to do so. Note that at this stage there is no indication
@@ -114,9 +111,6 @@
   //     });
 
   //   }
-
-    
-
 
   // }
 
