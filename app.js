@@ -82,14 +82,11 @@ app.get('/autocomplete.json', search.getAutocompleteJSON);
 app.post('/updateQueue', user.updateQueue);
 app.post('/updateSwipes', user.updateSwipe);
 
-
 app.post('/saveFriends', user.addFriends);
 app.post('/saveUser', user.saveUser);
 
-
-
-app.post('/savePhotos/:id', photo.addPhotos);
-app.get('/getPhotos/:id', photo.getPhotos);
+//app.post('/savePhotos/:id', photo.addPhotos);
+//app.get('/getPhotos/:id', photo.getPhotos);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

@@ -14,9 +14,22 @@ var time_interval;
 var addedToQueue = false;
 var addedToStack = false;
 var addedToRemoved = false;
-
 var compiledQueueTemplate;
 var compiledCardTemplate;
+
+/*
+
+*/
+function addModalListener() {
+	$(".show-modal").click(function(e){
+		var friendID = $(this).parents(".swipe-card").data("id");
+		console.log(friendID);
+  		e.preventDefault();
+  		console.log("clicked!");
+  		$('#modal').modal('toggle');
+  		getPhotos(friendID);
+  	});
+}
 
 /*
  * Function that is called when the document is ready.
@@ -34,23 +47,6 @@ function initializePage() {
 	// Render the stack and queue
 	renderStack();
   	renderQueue();
-
-  	// $('#modal').modal('hide');
-  	
-  	$(".show-modal").click(function(e){
-  		e.preventDefault();
-  		console.log("clicked!");
-  		$('#modal').modal('toggle');
-  	});
-
-
-	// $(".swipe-card-image").click(function(){
- //  		console.log("clicked!");
- //  		$('#modal').modal('toggle');
- //  	});
-
-	
-
 
   	$("#card_container").swipe( {
         swipeStatus:function(event, phase, direction, distance, duration, fingers)
@@ -292,6 +288,8 @@ function renderStack() {
 		});
 	$("#card_container").html(cardsHtml);
 	
+	addModalListener();
+
 	// Set the first card to the top
 	currentCard = $(".bottom-card").first();
 	currentCard.removeClass("bottom-card");

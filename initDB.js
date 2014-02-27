@@ -30,10 +30,6 @@ models.User
   .find({})
   .remove()
   .exec();
-models.Photo
-  .find({})
-  .remove()
-  .exec();
 
 mongoose.connection.close();
 
