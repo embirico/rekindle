@@ -13,6 +13,16 @@ var FriendSchema = new Mongoose.Schema({
 
 exports.Friend = Mongoose.model('Friend', FriendSchema);
 
+
+var PhotoSchema = new Mongoose.Schema({
+
+  "user_id": Number,
+  "photo_url": String
+})
+
+exports.Photo = Mongoose.model('Photo', PhotoSchema);
+
+
 var UserSchema = new Mongoose.Schema({
 	"id": Number,
 	"name": String,

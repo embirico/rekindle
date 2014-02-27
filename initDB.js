@@ -28,6 +28,9 @@ models.Friend
 models.User
   .find({})
   .remove();
+models.Photo
+  .find({})
+  .remove();
 
 mongoose.connection.close();
 

@@ -18,11 +18,10 @@ var help = require('./routes/help');
 var settings = require('./routes/settings');
 var login = require('./routes/login');
 var user = require('./routes/user');
-
+var photo = require('./routes/photo');
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
-var modal = require('./routes/modal.js');
-var namethat = require('./routes/modal.js');
+// var modal = require('./routes/modal.js');
 
 
 // Connect to the Mongo database, whether locally or on Heroku
@@ -81,10 +80,13 @@ app.post('/getSwipes', swipes.getMore);
 app.get('/autocomplete.json', search.getAutocompleteJSON);
 app.post('/updateQueue', user.updateQueue);
 
-app.get('/getPhotos', modal.getPhotos);
-
 app.post('/saveFriends', user.addFriends);
 app.post('/saveUser', user.saveUser);
+
+
+
+app.post('/savePhotos/:id', photo.addPhotos);
+app.get('/getPhotos/:id', photo.getPhotos);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

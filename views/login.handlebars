@@ -71,33 +71,47 @@
     //do adding friends here
      FB.api('/me/friends?fields=id,first_name,last_name,picture.type(large),location,birthday', function(response){
       //for each 
+      
       $.post('/saveFriends', {friends: response}, function(data) {
-        addFriendsPhotos();
-        // window.location.href = '/'; // reload the page
+        // addFriendsPhotos(response.data);
+        window.location.href = '/'; // reload the page
       });
     });    
   }
 
 
-  function addFriendsPhotos(){
-    // console.log('Adding friends photos to json file');
+  // function addFriendsPhotos(data){
+  //   // console.log('Adding friends photos to json file');
 
-    // for each friend in json, do this: 
-
-    var photoQuery = "SELECT pid, src_big FROM photo WHERE pid IN (SELECT pid FROM photo_tag WHERE subject='200353' ORDER BY created DESC LIMIT 50) LIMIT 25";
-    FB.api({
-        method: "fql.query",
-        query: photoQuery 
-      },
-      function(response){
-        console.log(response);
-        $.post('/savePhotos',{photos: response}, function(data) {
-          window.location.href = '/'; // reload the page
-        });
-    });
+  //   // for each friend in json, do this: 
+  //   // console.log(data[0].id);
+  //   for (var i in data){
 
 
-  }
+  //     var id = data[i].id;
+  //     console.log("now in data index: "+ i);
+  //     console.log("id: " +id);
+
+  //     var photoQuery = "SELECT pid, src_big FROM photo WHERE pid IN (SELECT pid FROM photo_tag WHERE subject='"+id+"' ORDER BY created DESC LIMIT 20) LIMIT 5";
+      
+  //     console.log(photoQuery);
+  //     FB.api({
+  //         method: "fql.query",
+  //         query: photoQuery 
+  //       },
+  //       function(response){
+  //         // console.log(response);
+  //         $.post('/savePhotos/'+id, {photos: response}, function(data) {
+  //           window.location.href = '/'; // reload the page
+  //         });
+  //     });
+
+  //   }
+
+    
+
+
+  // }
 
 
 </script>
