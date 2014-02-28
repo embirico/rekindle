@@ -9,7 +9,8 @@ var FriendSchema = new Mongoose.Schema({
   "location": String,
   "id": String,
   "in_queue": Number,
-  "score": Number
+  "score": Number,
+  "fb_link": String
 });
 
 exports.Friend = Mongoose.model('Friend', FriendSchema);

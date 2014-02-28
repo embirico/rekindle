@@ -16,6 +16,7 @@ var addedToStack = false;
 var addedToRemoved = false;
 var compiledQueueTemplate;
 var compiledCardTemplate;
+var isAlternateView;
 
 /*
 
@@ -38,9 +39,10 @@ function initializePage() {
 
 	// Compile handlebars templates for speed
 	var queueCardTemplate = $("#queue-card-template").html();
-	compiledQueueTemplate = Handlebars.compile(queueCardTemplate); 
+	compiledQueueTemplate = Handlebars.compile(queueCardTemplate);
 	var CardTemplate = $("#card-template").html();
 	compiledCardTemplate = Handlebars.compile(CardTemplate);
+	isAlternateView = $("#alternate-view-toggle").attr("data") == 'true';
 
 	var minThresh = 10;
 
@@ -81,7 +83,7 @@ function initializePage() {
       });
 
   	window.addEventListener('shake', shakeEventDidOccur, false);
-  	
+
   	$("#queue-back-link").click(function() {
   		$("#queueIndicator").click();
   	});
@@ -104,8 +106,8 @@ function shakeEventDidOccur () {
      		var person = queueJSON.shift();
     		candidatesJSON.unshift(person);
     		renderStack();
-    		renderQueue();	
-		}	
+    		renderQueue();
+		}
 	} else if(addedToStack) {
 		if (confirm("Put back into queue?")) {
 			addedToStack = false;
@@ -115,7 +117,7 @@ function shakeEventDidOccur () {
     		renderQueue();
     	}
 	}
-    
+
 }
 
 function resetCard() {
@@ -184,7 +186,7 @@ function fullRight() {
 	// Add the person to the queueJSON
 	queueJSON.unshift(swipedCard);
 	renderQueue();
-	
+
 	addedToQueue = true;
 	addedToStack = false;
 	addedToRemoved = false;
@@ -284,10 +286,12 @@ function renderStack() {
 	// Render out the list of people in the queue
 	var cardsHtml = '';
 	$.each(candidatesJSON, function(index, candidate) {
-		cardsHtml = cardsHtml + compiledCardTemplate(candidate);
+		var context = candidate;
+		context['isAlternateView'] = isAlternateView;
+		cardsHtml = cardsHtml + compiledCardTemplate(context);
 		});
 	$("#card_container").html(cardsHtml);
-	
+
 	addModalListener();
 
 	// Set the first card to the top
@@ -312,7 +316,7 @@ function loadNewCard() {
 	var nextCard = currentCard.next();
 	if(nextCard.length > 0) {
 		currentCard = nextCard;
-		currentCard.removeClass("bottom-card").addClass("top-card");		
+		currentCard.removeClass("bottom-card").addClass("top-card");
 
 		// Set properties of new card on top to default
 		currentCard.removeClass('*[class^="animate-"]');

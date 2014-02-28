@@ -7,16 +7,22 @@
 			<!-- This allows use of non-square images with proper scaling. -->
 			<!-- We can use img if the server guarantees square images. -->
 			<!-- added modal popup here -->
-			
+
 			<div class="swipe-card-image" class="show-modal" style=" background-image: url('\{{image}}')" >
 			</div>
-			
+
 
 			<div class="swipe-card-info">
 				<div class="top-line">
 					<h4>\{{first_name}} \{{last_name}}</h4>
 					<!-- added modal popup -->
-					<a href="#" class="show-modal">View more</a>
+					\{{#if isAlternateView}}
+						<a href="\{{fb_link}}" class="view-on-facebook">
+							View on Facebook
+						</a>
+					\{{else}}
+						<a href="#" class="show-modal">View more</a>
+					\{{/if}}
 				</div>
 				\{{#if location.name.length}}
 					<p><i class="fa fa-map-marker fa-fw"></i> \{{location}}</p>

@@ -90,6 +90,7 @@ exports.addFriends = function(req, res) {
             "image": form_data[i].picture.data.url,
             "location": location,
             "id": form_data[i].id,
+            "fb_link": form_data[i].link,
             "in_queue": 0,
             "score" : 0
           });
@@ -119,7 +120,7 @@ exports.updateSwipe = function(req, res) {
   var friendID = parseInt(form_data.id);
   var action = form_data.action;
 
-  if(action == "swipeLeft") { 
+  if(action == "swipeLeft") {
     var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = {$inc: {"score": -2000}}
       , options = { multi: true };
@@ -165,7 +166,7 @@ exports.updateQueue = function(req, res) {
       res.send(200);
     }
   } else if(action == "delete") {
-    
+
     var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = { "in_queue": 0, $inc: {"score": -500} }
       , options = { multi: true };
@@ -174,7 +175,7 @@ exports.updateQueue = function(req, res) {
     function afterUpdating(err) { // this is a callback
       if(err) {console.log(err); res.send(500); }
       res.send(200);
-    }    
+    }
   }
 }
 
@@ -215,13 +216,13 @@ exports.getFriend = function(req, res) {
 
     models.Friend
     .find({"owner_id": userID, "id": friendID})
-    .exec(afterQuery); 
+    .exec(afterQuery);
 
     function afterQuery(err, user) { // this is a callback
       if(err) {console.log(err); res.send(500); }
       res.send(user[0]);
     }
-  }    
+  }
 }
 
 

@@ -70,6 +70,7 @@ if ('development' == app.get('env')) {
 app.locals.layout = './main.handlebars';
 app.get('/', index.view);
 app.get('/index', index.view);
+app.get('/alternate', index.viewAlternate);
 app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
