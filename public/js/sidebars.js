@@ -16,57 +16,68 @@ $(document).ready(function () {
 
 
   // Toggle function for left side
-  $("#slide-nav").on("click", TOGGLER_LEFT, function (e) {
-    var isActive = $(TOGGLER_LEFT).hasClass('slide-active');
+  $(TOGGLER_LEFT).click(function (e) {
+    var leftSidebarOpen = $(this).hasClass('slide-active');
+    setLeftSidebarTo(! leftSidebarOpen);
+  });
 
+
+  // Toggle function for right slide
+  $(TOGGLER_RIGHT).click(function (e) {
+    var rightSidebarOpen = $(this).hasClass('slide-active');
+    setRightSidebarTo(! rightSidebarOpen);
+  })
+
+
+  // Function that does the opening and closing for left side
+  function setLeftSidebarTo(openIt) {
     $('#sidebar-left').stop().animate({
-        left: isActive ? percent(-SIDEBAR_WIDTH) : percent(LEFT_EDGE)
+        left: openIt ? percent(LEFT_EDGE) : percent(-SIDEBAR_WIDTH)
     });
     $('#navbar-height-col').css({
-      left: isActive ? percent(LEFT_EDGE) : percent(-SIDEBAR_WIDTH)
+      left: openIt ? percent(-SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
     $('#navbar-height-col').stop().animate({
-        left: isActive ? percent(-SIDEBAR_WIDTH) : percent(LEFT_EDGE)
+        left: openIt ? percent(LEFT_EDGE) : percent(-SIDEBAR_WIDTH)
     });
     $(PAGEWRAPPER).stop().animate({
-        left: isActive ? percent(LEFT_EDGE) : percent(SIDEBAR_WIDTH)
+        left: openIt ? percent(SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
     $(NAV_WRAPPER).stop().animate({
-        left: isActive ? percent(LEFT_EDGE) : percent(SIDEBAR_WIDTH)
+        left: openIt ? percent(SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
 
-    $(TOGGLER_LEFT).toggleClass('slide-active', !isActive);
+    $(TOGGLER_LEFT).toggleClass('slide-active', openIt);
     $('#sidebar-left').toggleClass('slide-active');
 
     $('#page-content, .navbar, body, .navbar-header').toggleClass('slide-active');
-  });
+  }
 
 
-  // Toggle function for right side
-  $("#slide-nav").on("click", TOGGLER_RIGHT, function (e) {
-    var isActive = $(TOGGLER_RIGHT).hasClass('slide-active');
-
+  // Function that does the opening and closing for right side
+  function setRightSidebarTo(openIt) {
     $('#sidebar-right').stop().animate({
-        left: isActive ? percent(RIGHT_EDGE) : percent(RIGHT_EDGE - SIDEBAR_WIDTH)
+        left: openIt ? percent(RIGHT_EDGE - SIDEBAR_WIDTH) : percent(RIGHT_EDGE)
     });
     $('#navbar-height-col').css({
-      left: isActive ? percent(RIGHT_EDGE - SIDEBAR_WIDTH) : percent(RIGHT_EDGE)
+      left: openIt ? percent(RIGHT_EDGE) : percent(RIGHT_EDGE - SIDEBAR_WIDTH)
     });
     $('#navbar-height-col').stop().animate({
-        left: isActive ? percent(RIGHT_EDGE) : percent(RIGHT_EDGE - SIDEBAR_WIDTH)
+        left: openIt ? percent(RIGHT_EDGE - SIDEBAR_WIDTH) : percent(RIGHT_EDGE)
     });
     $(PAGEWRAPPER).stop().animate({
-        left: isActive ? percent(LEFT_EDGE) : percent(-SIDEBAR_WIDTH)
+        left: openIt ? percent(-SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
     $(NAV_WRAPPER).stop().animate({
-        left: isActive ? percent(LEFT_EDGE) : percent(-SIDEBAR_WIDTH)
+        left: openIt ? percent(-SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
 
-    $(TOGGLER_RIGHT).toggleClass('slide-active', !isActive);
+    $(TOGGLER_RIGHT).toggleClass('slide-active', openIt);
     $('#sidebar-right').toggleClass('slide-active');
 
     $('#page-content, .navbar, body, .navbar-header').toggleClass('slide-active');
-  });
+  }
+
 
   // Simple helper function
   function percent(x) {
