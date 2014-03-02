@@ -33,7 +33,7 @@ $(document).ready(function () {
   // We use native js to use event 'capturing' vs 'bubbling'.
   // Note that this is incompatible with IE<9, which is why JQuery can't do it
   document.getElementById('page-content')
-    .addEventListener('mousedown', function (e) {
+    .addEventListener('touchstart', function (e) {
       if ($(TOGGLER_LEFT).hasClass(SLIDE_ACTIVE)) {
         e.stopPropagation();
         e.preventDefault();
