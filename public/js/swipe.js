@@ -50,9 +50,11 @@ function initializePage() {
 	renderStack();
   	renderQueue();
 
+  	$("#card_container").data('swipe_disabled') == false;
   	$("#card_container").swipe( {
         swipeStatus:function(event, phase, direction, distance, duration, fingers)
         {
+        	if($(this).data('swipe_disabled')) return;
           if(distance < 50) {
           		if (phase == "end") resetCard();
           	}

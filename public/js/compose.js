@@ -20,6 +20,8 @@ var activateComposeViewHandler = function(e) {
 	$('.swipe-nav').hide();
 	$('.compose-nav').show();
 
+	$('#card_container').data('swipe_disabled', true);
+
 	$('#compose-back-button').bind('click', deactivateComposeViewHandler);
 	$('#compose-send-button').bind('click', sendHandler);
 
@@ -56,6 +58,8 @@ var deactivateComposeViewHandler = function(e) {
 
 	$('.compose-nav').hide();
 	$('.swipe-nav').show();
+
+	$('#card_container').data('swipe_disabled', false);
 
 	swipeCardImg = $('#card_container .swipe-card-image');
 	imageHeight = recalculateHeight(false);
