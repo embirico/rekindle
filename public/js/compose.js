@@ -1,5 +1,6 @@
 var ANIMATION_SPEED = 400;
 var navLeftHtml, navRightHtml, navBrandText; // Filled by activateComposeView
+var originalPlaceholderText;
 
 function addComposeListeners() {
 	$('textarea').bind('focus', activateComposeViewHandler);
@@ -16,6 +17,8 @@ var activateComposeViewHandler = function(e) {
 	}
 
 	textarea.addClass('compose-active');
+	originalPlaceholderText = textarea.attr('placeholder');
+	textarea.attr('placeholder', textarea.attr('compose-mode-placeholder'));
 
 	$('.swipe-nav').hide();
 	$('.compose-nav').show();
@@ -55,6 +58,7 @@ var deactivateComposeViewHandler = function(e) {
 	}
 
 	$('.top-card textarea').removeClass('compose-active');
+	textarea.attr('placeholder', originalPlaceholderText);
 
 	$('.compose-nav').hide();
 	$('.swipe-nav').show();
