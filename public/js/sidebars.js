@@ -5,7 +5,6 @@ $(document).ready(function () {
   //stick in the fixed 100% height behind the navbar but don't wrap it
   $('#slide-nav.navbar .container').append($('<div id="navbar-height-col"></div>'));
 
-  // Enter your ids or classes
   var TOGGLER_LEFT = '.navbar-toggle';
   var TOGGLER_RIGHT = '.navbar-toggle-right';
   var PAGEWRAPPER = '#page-content';
@@ -13,20 +12,38 @@ $(document).ready(function () {
   var SIDEBAR_WIDTH = 80;
   var LEFT_EDGE = 0;
   var RIGHT_EDGE = 100;
+  var SLIDE_ACTIVE = 'slide-active';
 
 
   // Toggle function for left side
   $(TOGGLER_LEFT).click(function (e) {
-    var leftSidebarOpen = $(this).hasClass('slide-active');
+    var leftSidebarOpen = $(this).hasClass(SLIDE_ACTIVE);
     setLeftSidebarTo(! leftSidebarOpen);
   });
 
 
   // Toggle function for right slide
   $(TOGGLER_RIGHT).click(function (e) {
-    var rightSidebarOpen = $(this).hasClass('slide-active');
+    var rightSidebarOpen = $(this).hasClass(SLIDE_ACTIVE);
     setRightSidebarTo(! rightSidebarOpen);
   })
+
+
+  // Function to close both sidebars
+  // We use native js to use event 'capturing' vs 'bubbling'.
+  // Note that this is incompatible with IE<9, which is why JQuery can't do it
+  document.getElementById('page-content')
+    .addEventListener('mousedown', function (e) {
+      if ($(TOGGLER_LEFT).hasClass(SLIDE_ACTIVE)) {
+        e.stopPropagation();
+        e.preventDefault();
+        setLeftSidebarTo(false);
+      } else if ($(TOGGLER_RIGHT).hasClass(SLIDE_ACTIVE)) {
+        e.stopPropagation();
+        e.preventDefault();
+        setRightSidebarTo(false);
+      }
+  }, true);
 
 
   // Function that does the opening and closing for left side
@@ -47,10 +64,10 @@ $(document).ready(function () {
         left: openIt ? percent(SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
 
-    $(TOGGLER_LEFT).toggleClass('slide-active', openIt);
-    $('#sidebar-left').toggleClass('slide-active');
+    $(TOGGLER_LEFT).toggleClass(SLIDE_ACTIVE, openIt);
+    $('#sidebar-left').toggleClass(SLIDE_ACTIVE);
 
-    $('#page-content, .navbar, body, .navbar-header').toggleClass('slide-active');
+    $('#page-content, .navbar, body, .navbar-header').toggleClass(SLIDE_ACTIVE);
   }
 
 
@@ -72,10 +89,10 @@ $(document).ready(function () {
         left: openIt ? percent(-SIDEBAR_WIDTH) : percent(LEFT_EDGE)
     });
 
-    $(TOGGLER_RIGHT).toggleClass('slide-active', openIt);
-    $('#sidebar-right').toggleClass('slide-active');
+    $(TOGGLER_RIGHT).toggleClass(SLIDE_ACTIVE, openIt);
+    $('#sidebar-right').toggleClass(SLIDE_ACTIVE);
 
-    $('#page-content, .navbar, body, .navbar-header').toggleClass('slide-active');
+    $('#page-content, .navbar, body, .navbar-header').toggleClass(SLIDE_ACTIVE);
   }
 
 
