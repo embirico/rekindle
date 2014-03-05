@@ -14,6 +14,7 @@ $(document).ready(function () {
 	$('#search-input').typeahead({
 	  minLength: 2,
 	  highlight: true,
+	  autoselect: true
 	},
 	{
 	  displayKey: 'name',
