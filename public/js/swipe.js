@@ -14,6 +14,7 @@ var time_interval;
 var addedToQueue = false;
 var addedToStack = false;
 var addedToRemoved = false;
+var removedFromStack = false;
 var compiledQueueTemplate;
 var compiledCardTemplate;
 var isAlternateView;
@@ -118,6 +119,14 @@ function shakeEventDidOccur () {
     		renderStack();
     		renderQueue();
     	}
+	else if(removedFromStack) {
+		if (confirm("Put back into queue?")) {
+			removedFromStack = false;
+			var person = removedJSON.shift();
+			queueJSON.unshift(person);
+			renderQueue();
+		}
+	}
 	}
 
 }
@@ -273,7 +282,9 @@ function initializeQueueLinks() {
 	                }
 	            });
 		// Remove this person from the queued JSON
+		removedJSON.unshift(personObject);
 		queueJSON.splice(personIndex,1);
+		removedFromStack = true;
 	  	renderQueue();
 
 		// Push this action to the server via AJAX
