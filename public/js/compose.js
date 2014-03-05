@@ -12,9 +12,6 @@ var activateComposeViewHandler = function(e) {
 	if (textarea.hasClass('compose-active')) {
 		return // already in compose view
 	}
-	else {
-		//textarea.blur();
-	}
 
 	textarea.addClass('compose-active');
 	originalPlaceholderText = textarea.attr('placeholder');
@@ -28,12 +25,11 @@ var activateComposeViewHandler = function(e) {
 	$('#compose-back-button').bind('click', deactivateComposeViewHandler);
 	$('#compose-send-button').bind('click', sendHandler);
 
-	$('#card_container .swipe-card-image').animate({height: 0}, ANIMATION_SPEED);
-
-	// IDEALLY I WANT TO GROW THE TEXTBOX, BUT THERE ISN'T MUCH SPACE ON THE
-	// IPHONE 5
-	// textarea.animate({height: '170px'});
-	// textarea.animate({height: '73px'});
+	var topCard = $('.top-card');
+	topCard.find('.swipe-card-image')
+		.animate({height: 0}, ANIMATION_SPEED);
+	topCard.next().find('.swipe-card-image')
+		.animate({height: 0}, ANIMATION_SPEED);
 
 	// OK SO HAVING SOME ISSUES WITH HAVING TO SCROLL UP MANUALLY ON THE IPHONE
 	// AFTER THE RESIZE. (WORKS FINE IN CHROME EMULATOR)
@@ -43,13 +39,6 @@ var activateComposeViewHandler = function(e) {
 		window.scrollTo(0, 0);
 	}, ANIMATION_SPEED);
 
-	/*setTimeout(function() {
-		textarea.trigger("click");
-		console.log("focus");
-	}, 800);*/
-
-	// THIS WAS ANOTHER WAY THAT I THOUGHT TO DO IT, BUT IT DOESN'T WORK
-	// $('html, body').delay(1000).scrollTop();
 }
 
 var deactivateComposeViewHandler = function(e) {
@@ -65,11 +54,14 @@ var deactivateComposeViewHandler = function(e) {
 
 	$('#card_container').data('swipe_disabled', false);
 
-	swipeCardImg = $('#card_container .swipe-card-image');
 	imageHeight = recalculateHeight(false);
-	swipeCardImg.animate({
-		height: imageHeight
-	}, ANIMATION_SPEED);
+	console.log(imageHeight);
+
+	var topCard = $('.top-card');
+	topCard.find('.swipe-card-image')
+		.animate({height: imageHeight}, ANIMATION_SPEED);
+	topCard.next().find('.swipe-card-image')
+		.animate({height: imageHeight}, ANIMATION_SPEED);
 
 	$('#compose-back-button').unbind('click', deactivateComposeViewHandler);
 	$('#compose-send-button').unbind('click', sendHandler);
@@ -78,6 +70,22 @@ var deactivateComposeViewHandler = function(e) {
 // TODO update so we actually send something and update the card
 var sendHandler = function(e) {
 	e.preventDefault();
+
+	// FB.ui({
+	//   method: 'send',
+	//   link: 'http://developers.facebook.com/docs/reference/dialogs/send/',
+	// });
+
+	// FB.ui({ method: 'feed',
+ //    message: 'soemth',
+ //    name: 'name',
+ //    link: 'http://developers.facebook.com/docs/reference/dialogs/send/',
+ //    picture: 'http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg',
+ //    caption: 'caption',
+ //    description: 'desc',
+ //    display: 'touch', // TAKE NOTE
+ //    redirect_uri: 'localhost:3000'
+	// });
 
 	alert("Your message has been sent.");
 	$('.top-card textarea').val('');
