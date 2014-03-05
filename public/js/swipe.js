@@ -171,6 +171,7 @@ function fullLeft() {
 	addedToQueue = false;
 	addedToStack = false;
 	addedToRemoved = true;
+	removedFromStack = false;
 
 	time_interval = setInterval(loadNewCard, 100);
 }
@@ -201,6 +202,7 @@ function fullRight() {
 	addedToQueue = true;
 	addedToStack = false;
 	addedToRemoved = false;
+	removedFromStack = false;
 
 	time_interval = setInterval(loadNewCard, 100);
 }
@@ -260,6 +262,7 @@ function initializeQueueLinks() {
 		addedToQueue = false;
 		addedToStack = true;
 		addedToRemoved = false;
+		removedFromStack = false;
 
 		// Render queue & stack
 		renderStack();
@@ -284,7 +287,12 @@ function initializeQueueLinks() {
 		// Remove this person from the queued JSON
 		removedJSON.unshift(personObject);
 		queueJSON.splice(personIndex,1);
+
+		addedToQueue = false;
+		addedToStack = false;
+		addedToRemoved = false;
 		removedFromStack = true;
+
 	  	renderQueue();
 
 		// Push this action to the server via AJAX

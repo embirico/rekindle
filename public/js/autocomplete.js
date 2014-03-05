@@ -66,6 +66,7 @@ $(document).ready(function () {
 	        addedToQueue = false;
 			addedToStack = false;
 			addedToRemoved = false;
+			removedFromStack = false;
 	      });
 	})
 
