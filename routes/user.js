@@ -130,7 +130,12 @@ exports.updateSwipe = function(req, res) {
       if(err) {console.log(err); res.send(500); }
       res.send(200);
     }
+  } else if (action =="sendMessage") {
+    console.log('Recieved sendMessage but didnt do anything about it. TODO');
+    res.send(200);
   }
+
+  // TODO add elsif for if action == sendMessage
 }
 
 

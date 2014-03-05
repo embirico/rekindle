@@ -55,7 +55,6 @@ var deactivateComposeViewHandler = function(e) {
 	$('#card_container').data('swipe_disabled', false);
 
 	imageHeight = recalculateHeight(false);
-	console.log(imageHeight);
 
 	var topCard = $('.top-card');
 	topCard.find('.swipe-card-image')
@@ -71,12 +70,14 @@ var deactivateComposeViewHandler = function(e) {
 var sendHandler = function(e) {
 	e.preventDefault();
 
+	// Send the message
+
 	// FB.ui({
 	//   method: 'send',
 	//   link: 'http://developers.facebook.com/docs/reference/dialogs/send/',
 	// });
 
-	// FB.ui({ method: 'feed',
+ // FB.ui({ method: 'feed',
  //    message: 'soemth',
  //    name: 'name',
  //    link: 'http://developers.facebook.com/docs/reference/dialogs/send/',
@@ -85,9 +86,40 @@ var sendHandler = function(e) {
  //    description: 'desc',
  //    display: 'touch', // TAKE NOTE
  //    redirect_uri: 'localhost:3000'
-	// });
+ // });
 
 	alert("Your message has been sent.");
+
+	// Deactive compose mode
+
 	$('.top-card textarea').val('');
 	deactivateComposeViewHandler(null);
+
+	// Update server and client data
+
+	// Remove this card from candidatesJSON array
+	var swipedCard;
+	var swipedIndex = -1;
+	$.each(candidatesJSON, function(index, candidate) {
+    if(candidate.id == currentCard.attr("data-id")) {
+    	swipedCard = candidate;
+    	swipedIndex = index;
+    }
+  });
+	candidatesJSON.splice(swipedIndex,1);
+	removedJSON.unshift(swipedCard);
+
+	// Push this action to the server via AJAX
+	$.post('/updateSwipes', {action: "sendMessage", id: swipedCard.id}, function(data) {
+    console.log("sendMessage sent to server");
+  });
+
+
+	addedToQueue = false;
+	addedToStack = false;
+	addedToRemoved = true;
+
+	// Get new card
+
+	time_interval = setInterval(loadNewCard, 100);
 }
