@@ -4,6 +4,8 @@ var originalPlaceholderText;
 
 function addComposeListeners() {
 	$('textarea').bind('focus', activateComposeViewHandler);
+	$('#compose-back-button').bind('click', deactivateComposeViewHandler);
+	$('#compose-send-button').bind('click', sendHandler);
 }
 
 var activateComposeViewHandler = function(e) {
@@ -22,8 +24,6 @@ var activateComposeViewHandler = function(e) {
 
 	$('#card_container').data('swipe_disabled', true);
 
-	$('#compose-back-button').bind('click', deactivateComposeViewHandler);
-	$('#compose-send-button').bind('click', sendHandler);
 
 	var topCard = $('.top-card');
 	topCard.find('.swipe-card-image')
@@ -61,9 +61,6 @@ var deactivateComposeViewHandler = function(e) {
 		.animate({height: imageHeight}, ANIMATION_SPEED);
 	topCard.next().find('.swipe-card-image')
 		.animate({height: imageHeight}, ANIMATION_SPEED);
-
-	$('#compose-back-button').unbind('click', deactivateComposeViewHandler);
-	$('#compose-send-button').unbind('click', sendHandler);
 }
 
 // TODO update so we actually send something and update the card
