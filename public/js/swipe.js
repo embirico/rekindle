@@ -112,7 +112,7 @@ function shakeEventDidOccur () {
     		renderQueue();
 		}
 	} else if(addedToStack) {
-		if (confirm("Put back into queue?")) {
+		if (confirm("Put back into to message later?")) {
 			addedToStack = false;
         	var person = candidatesJSON.shift();
     		queueJSON.unshift(person);
@@ -120,7 +120,7 @@ function shakeEventDidOccur () {
     		renderQueue();
     	}
 	else if(removedFromStack) {
-		if (confirm("Put back into queue?")) {
+		if (confirm("Put back into to message later?")) {
 			removedFromStack = false;
 			var person = removedJSON.shift();
 			queueJSON.unshift(person);
