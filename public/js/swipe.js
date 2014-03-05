@@ -119,7 +119,7 @@ function shakeEventDidOccur () {
     		renderStack();
     		renderQueue();
     	}
-	else if(removedFromStack) {
+	} else if(removedFromStack) {
 		if (confirm("Put back into to message later?")) {
 			removedFromStack = false;
 			var person = removedJSON.shift();
