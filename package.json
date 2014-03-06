@@ -18,7 +18,8 @@
     "mongoose": "~3.8.7",
     "mongod": "~1.1.1",
     "async": "~0.2.10",
-    "node-xmpp": ">=0.3.0"
+    "node-xmpp": ">=0.3.0",
+    "facebook-chat": "*"
   },
   "engines": {
     "node": "0.10.x"

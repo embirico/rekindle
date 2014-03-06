@@ -1,7 +1,7 @@
 //inside routes
 
 var models = require('../models');
-var FacebookChat = require('../fbchat');
+var FacebookChat = require('facebook-chat');
 
 /*
   Checks the user's session;
@@ -137,26 +137,28 @@ exports.updateSwipe = function(req, res) {
       res.send(200);
     }
   } else if (action =="sendMessage") {
+    var message = form_data.message;
 
-
-    models.User
-    .find({"id": req.cookies.userID})
-    .exec(afterQuery);
+    models.User.findOne({ id: req.cookies.userID }, afterQuery);
 
     function afterQuery(err, user) { // this is a callback
       if(err) {console.log(err); res.send(500); }
 
-      console.log('Recieved sendMessage but didnt do anything about it. TODO');
-      console.log(user[0].authToken);
+      console.log('Sent message via fb but didnt store action in model. TODO');
 
-      var fbchat = new FacebookChat({
-        userId: req.cookies.userID,
+      var params = {
+        facebookId: user.id,
         appId: '1377497889172999',
-        accessToken: user[0].authToken
-      });
+        appSecret: 'ca95840bcc55918df87e7dbaf1385608',
+        accessToken: user.authToken
+      };
 
-      console.log("sending");
-      fbchat.sendMessage(friendID, 'Hi friend!');
+      var facebookClient = new FacebookChat(params);
+
+      facebookClient.on('online', function(){
+        facebookClient.send('-' + friendID + '@chat.facebook.com', message);
+        console.log('sent message');
+      });
 
       res.send(200);
     }

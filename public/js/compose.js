@@ -63,33 +63,19 @@ var deactivateComposeViewHandler = function(e) {
 		.animate({height: imageHeight}, ANIMATION_SPEED);
 }
 
-// TODO update so we actually send something and update the card
+// TODO fix from triggering twice in a row when you click send
 var sendHandler = function(e) {
 	e.preventDefault();
 
 	// Send the message
 
-	// FB.ui({
-	//   method: 'send',
-	//   link: 'http://developers.facebook.com/docs/reference/dialogs/send/',
-	// });
-
- // FB.ui({ method: 'feed',
- //    message: 'soemth',
- //    name: 'name',
- //    link: 'http://developers.facebook.com/docs/reference/dialogs/send/',
- //    picture: 'http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg',
- //    caption: 'caption',
- //    description: 'desc',
- //    display: 'touch', // TAKE NOTE
- //    redirect_uri: 'localhost:3000'
- // });
-
-	alert("Your message has been sent.");
+	alert("Your message has been sent. You can view it in Facebook Messenger");
 
 	// Deactive compose mode
 
-	$('.top-card textarea').val('');
+	var topTextArea = $('.top-card textarea');
+	var message = topTextArea.val();
+	topTextArea.val('');
 	deactivateComposeViewHandler(null);
 
 	// Update server and client data
@@ -107,7 +93,11 @@ var sendHandler = function(e) {
 	removedJSON.unshift(swipedCard);
 
 	// Push this action to the server via AJAX
-	$.post('/updateSwipes', {action: "sendMessage", id: swipedCard.id}, function(data) {
+	$.post('/updateSwipes', {
+		action: "sendMessage",
+		id: swipedCard.id,
+		message: message
+	}, function(data) {
     console.log("sendMessage sent to server");
   });
 
