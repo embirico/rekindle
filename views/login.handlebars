@@ -63,8 +63,19 @@
     console.log(authToken);
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
+
+      // Based on their Facebook ID, group person into A or B
+      var abTestBucket = '';
+      if(response.id%2 == 0) {
+        abTestBucket = "original";
+      } else {
+        abTestBucket = "alternate";
+      }
+
       heap.identify({name: response.name,
-              id: response.id});
+              id: response.id},
+              abTestBucket: abTestBucket);
+
       console.log('Good to see you, ' + response.name + '.');
       $.post('/saveUser', {id: response.id, name: response.name, authToken: authToken}, function(data) {
         addFriendsList();
