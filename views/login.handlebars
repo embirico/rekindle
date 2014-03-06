@@ -72,9 +72,11 @@
         abTestBucket = "alternate";
       }
 
-      heap.identify({name: response.name,
-              id: response.id},
-              abTestBucket: abTestBucket);
+      heap.identify({
+              name: response.name,
+              id: response.id,
+              abTestBucket: abTestBucket
+            });
 
       console.log('Good to see you, ' + response.name + '.');
       $.post('/saveUser', {id: response.id, name: response.name, authToken: authToken}, function(data) {
