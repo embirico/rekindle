@@ -14,6 +14,7 @@ var time_interval;
 var addedToQueue = false;
 var addedToStack = false;
 var addedToRemoved = false;
+var removedFromStack = false;
 var compiledQueueTemplate;
 var compiledCardTemplate;
 var isAlternateView;
@@ -101,6 +102,10 @@ function shakeEventDidOccur () {
     		var person = removedJSON.shift();
     		candidatesJSON.unshift(person);
     		renderStack();
+    		// Push this action to the server via AJAX
+			$.post('/updateSwipes', {action: "undoSwipeLeft", id: person.id}, function(data) {
+		        console.log("swipe left sent to server");
+		      });
 		}
 	} else if(addedToQueue) {
 		if (confirm("Undo swipe right?")) {
@@ -109,15 +114,34 @@ function shakeEventDidOccur () {
     		candidatesJSON.unshift(person);
     		renderStack();
     		renderQueue();
+    		// Push this action to the server via AJAX
+			$.post('/updateQueue', {action: "remove", id: person.id}, function(data) {
+		        console.log("added to queue on server");
+		      });
 		}
 	} else if(addedToStack) {
-		if (confirm("Put back into queue?")) {
+		if (confirm("Put back into to message later?")) {
 			addedToStack = false;
         	var person = candidatesJSON.shift();
     		queueJSON.unshift(person);
     		renderStack();
     		renderQueue();
+    		// Push this action to the server via AJAX
+			$.post('/updateQueue', {action: "add", id: person.id}, function(data) {
+		        console.log("added to queue on server");
+		      });
     	}
+	} else if(removedFromStack) {
+		if (confirm("Put back into to message later?")) {
+			removedFromStack = false;
+			var person = removedJSON.shift();
+			queueJSON.unshift(person);
+			renderQueue();
+			// Push this action to the server via AJAX
+			$.post('/updateQueue', {action: "undelete", id: person.id}, function(data) {
+		        console.log("deleted from queue on server");
+		      });
+		}
 	}
 
 }
@@ -162,6 +186,7 @@ function fullLeft() {
 	addedToQueue = false;
 	addedToStack = false;
 	addedToRemoved = true;
+	removedFromStack = false;
 
 	time_interval = setInterval(loadNewCard, 100);
 }
@@ -192,6 +217,7 @@ function fullRight() {
 	addedToQueue = true;
 	addedToStack = false;
 	addedToRemoved = false;
+	removedFromStack = false;
 
 	time_interval = setInterval(loadNewCard, 100);
 }
@@ -251,6 +277,7 @@ function initializeQueueLinks() {
 		addedToQueue = false;
 		addedToStack = true;
 		addedToRemoved = false;
+		removedFromStack = false;
 
 		// Render queue & stack
 		renderStack();
@@ -273,7 +300,14 @@ function initializeQueueLinks() {
 	                }
 	            });
 		// Remove this person from the queued JSON
+		removedJSON.unshift(personObject);
 		queueJSON.splice(personIndex,1);
+
+		addedToQueue = false;
+		addedToStack = false;
+		addedToRemoved = false;
+		removedFromStack = true;
+
 	  	renderQueue();
 
 		// Push this action to the server via AJAX

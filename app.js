@@ -19,6 +19,8 @@ var settings = require('./routes/settings');
 var login = require('./routes/login');
 var user = require('./routes/user');
 var photo = require('./routes/photo');
+var terms = require('./routes/terms');
+
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
 // var modal = require('./routes/modal.js');
@@ -75,6 +77,9 @@ app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
 app.get('/login', login.view);
+
+app.get('/terms', terms.terms);
+app.get('/privacy-policy', terms.privacy)
 
 // Ajax URLs
 app.post('/getSwipes', swipes.getMore);
