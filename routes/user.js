@@ -86,6 +86,7 @@ exports.addFriends = function(req, res) {
           var location = '';
           if (typeof form_data[i].location != 'undefined') {
             location = form_data[i].location.name;
+            console.log(location);
           }
           var newUser = new models.Friend({
             "owner_id": parseInt(userID),

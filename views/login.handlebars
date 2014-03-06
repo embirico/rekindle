@@ -33,7 +33,7 @@
 
         FB.login(function(response){
       
-        }, {scope: 'friends_photos, xmpp_login, friends_location'});
+        }, {scope: 'friends_location, friends_status, friends_birthday, friends_photos, xmpp_login, friends_location'});
       } else {
         // In this case, the person is not logged into Facebook, so we call the login()
         // function to prompt them to do so. Note that at this stage there is no indication
@@ -42,7 +42,7 @@
         // The same caveats as above apply to the FB.login() call here.
         FB.login(function(response){
 
-        }, {scope: 'friends_photos, xmpp_login, friends_location'});
+        }, {scope: 'friends_location, friends_status, friends_birthday, friends_photos, xmpp_login, friends_location'});
       }
     });
   };
