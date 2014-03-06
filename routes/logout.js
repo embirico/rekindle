@@ -9,8 +9,9 @@ exports.view = function(req, res){
 
   // Check session is valid
   userID = user.checkSession(req, res);
+  res.cookie('userID', "");
 
   res.render('logout', {
-  	title: 'Logout'
+  	title: 'Logged Out'
   });
 };

@@ -36,7 +36,7 @@ exports.view = function(req, res){
     }
 
     var isAlternateView = false;
-    if(userID % 2 != 0) {
+    if(userID % 2 == 0) {
       isAlternateView = false;
     } else {
       isAlternateView = true;

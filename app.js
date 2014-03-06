@@ -17,6 +17,7 @@ var search = require('./routes/search');
 var help = require('./routes/help');
 var settings = require('./routes/settings');
 var login = require('./routes/login');
+var logout = require('./routes/logout');
 var user = require('./routes/user');
 var photo = require('./routes/photo');
 var terms = require('./routes/terms');
@@ -77,6 +78,7 @@ app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
 app.get('/login', login.view);
+app.get('/logout', logout.view);
 
 app.get('/terms', terms.terms);
 app.get('/privacy-policy', terms.privacy)

@@ -66,7 +66,7 @@
 
       // Based on their Facebook ID, group person into A or B
       var abTestBucket = '';
-      if(response.id%2 != 0) {
+      if(response.id%2 == 0) {
         abTestBucket = "original";
       } else {
         abTestBucket = "alternate";

@@ -1,0 +1,16 @@
+{{> navbar}}
+
+<div id="page-content">
+	<div class="container">
+		<h2>You are now logged out</h2>
+		<p>You can log in again by visiting the <a href="/login">Login page</a></p>
+	</div>
+</div>
+
+<script>
+window.fbAsyncInit = function() {
+	FB.logout(function(response) {
+	  // user is now logged out
+	});
+};
+</script>
