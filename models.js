@@ -7,6 +7,7 @@ var FriendSchema = new Mongoose.Schema({
   "last_name": String,
   "image": String,
   "location": String,
+  "birthday": String,
   "id": String,
   "in_queue": Number,
   "score": Number,

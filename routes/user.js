@@ -94,6 +94,7 @@ exports.addFriends = function(req, res) {
             "last_name": form_data[i].last_name,
             "image": form_data[i].picture.data.url,
             "location": location,
+            "birthday": form_data[i].birthday,
             "id": form_data[i].id,
             "fb_link": form_data[i].link,
             "in_queue": 0,
@@ -159,7 +160,7 @@ exports.updateSwipe = function(req, res) {
 
       res.send(200);
     }
-    
+
   } else if(action == "undoSwipeLeft") {
     var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = {$inc: {"score": 2000}}

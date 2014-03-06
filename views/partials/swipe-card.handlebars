@@ -24,17 +24,24 @@
 						<a href="#" class="show-modal">View more</a>
 					\{{/if}}
 				</div>
-				<!-- \{{#if location.length}} -->
-					<p><i class="fa fa-map-marker fa-fw"></i> \{{location}}</p>
-				<!-- \{{else}} -->
-					<!-- <p>User doesn't have location displayed</p> -->
-				<!-- \{{/if}} -->
-				\{{#if milestone.length}}
-					<p><i class="fa fa-asterisk fa-fw"></i> \{{milestone}}</p>
-				\{{else}}
-					<p>User doesn't have a milestone</p>
-				\{{/if}}
+
+				<p><i class="fa fa-map-marker fa-fw"></i>
+					\{{#if location.length}}
+						\{{location}}
+					\{{else}}
+						Location unavailable
+					\{{/if}}
+				</p>
+
+				<p><i class="fa fa-asterisk fa-fw"></i>
+					\{{#if birthday.length}}
+						\{{birthday}}
+					\{{else}}
+						Birthday unavailable
+					\{{/if}}
+				</p>
 			</div>
+
 			<div class="swipe-card-input">
 				<textarea class="form-control" rows="2" placeholder="Send \{{first_name}} a Facebook message" compose-mode-placeholder="\{{first_name}} will receive this as a Facebook message."></textarea>
 			</div>
