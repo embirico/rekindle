@@ -28,7 +28,8 @@ exports.Photo = Mongoose.model('Photo', PhotoSchema);*/
 var UserSchema = new Mongoose.Schema({
 	"id": Number,
 	"name": String,
-	"sessionkey": String
+	"sessionkey": String,
+  "authToken": String
 });
 
 exports.User = Mongoose.model('User', UserSchema);

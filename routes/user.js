@@ -1,6 +1,7 @@
 //inside routes
 
 var models = require('../models');
+var FacebookChat = require('../fbchat');
 
 /*
   Checks the user's session;
@@ -26,6 +27,8 @@ exports.saveUser = function(req, res) {
   var form_data = req.body;
   var id = form_data.id;
   var name = form_data.name;
+  var authToken = form_data.authToken;
+  console.log(authToken);
 
   models.User
     .find({"id": id})
@@ -42,7 +45,8 @@ exports.saveUser = function(req, res) {
       var newUser = new models.User({
         "id": id,
         "name": name,
-        "sessionkey": id
+        "sessionkey": id,
+        "authToken": authToken
       });
       newUser.save(afterSaving);
       function afterSaving(err) { // this is a callback
@@ -131,8 +135,30 @@ exports.updateSwipe = function(req, res) {
       res.send(200);
     }
   } else if (action =="sendMessage") {
-    console.log('Recieved sendMessage but didnt do anything about it. TODO');
-    res.send(200);
+
+
+    models.User
+    .find({"id": req.cookies.userID})
+    .exec(afterQuery);
+
+    function afterQuery(err, user) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+
+      console.log('Recieved sendMessage but didnt do anything about it. TODO');
+      console.log(user[0].authToken);
+
+      var fbchat = new FacebookChat({
+        userId: req.cookies.userID,
+        appId: '1377497889172999',
+        accessToken: user[0].authToken
+      });
+
+      console.log("sending");
+      fbchat.sendMessage(friendID, 'Hi friend!');
+
+      res.send(200);
+    }
+    
   } else if(action == "undoSwipeLeft") {
     var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = {$inc: {"score": 2000}}
