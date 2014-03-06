@@ -133,8 +133,17 @@ exports.updateSwipe = function(req, res) {
   } else if (action =="sendMessage") {
     console.log('Recieved sendMessage but didnt do anything about it. TODO');
     res.send(200);
-  }
+  } else if(action == "undoSwipeLeft") {
+    var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
+      , update = {$inc: {"score": 2000}}
+      , options = { multi: true };
 
+    models.Friend.update(conditions, update, options, afterUpdating);
+    function afterUpdating(err) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(200);
+    }
+  }
   // TODO add elsif for if action == sendMessage
 }
 
@@ -174,6 +183,17 @@ exports.updateQueue = function(req, res) {
 
     var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
       , update = { "in_queue": 0, $inc: {"score": -500} }
+      , options = { multi: true };
+
+    models.Friend.update(conditions, update, options, afterUpdating);
+    function afterUpdating(err) { // this is a callback
+      if(err) {console.log(err); res.send(500); }
+      res.send(200);
+    }
+  } else if(action == "undelete") {
+
+    var conditions = { "owner_id" : req.cookies.userID, "id": friendID }
+      , update = { "in_queue": 1, "score": 0 }
       , options = { multi: true };
 
     models.Friend.update(conditions, update, options, afterUpdating);
