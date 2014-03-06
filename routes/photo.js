@@ -51,22 +51,5 @@ exports.addPhotos = function(req, res){
 }
 
 //Calls the callback with the JSON array of friends to swipe
-exports.getPhotos = function(req, res){
-  
-  //what is userID
-  userID = req.params.id;
-  console.log(userID);
-    models.Photo
-    .find({"user_id": userID})
-    .exec(afterQuery);
 
-  function afterQuery(err, photos) {
-    if(err) {
-      res.send(500);
-    } else {
-      console.log(photos);
-      res.json(photos);
-    }
-  }
 
-} 

@@ -81,9 +81,13 @@ app.get('/login', login.view);
 app.get('/terms', terms.terms);
 app.get('/privacy-policy', terms.privacy)
 
+// app.get('/getAbout', photo.getAbout);
+
 // Ajax URLs
 app.post('/getSwipes', swipes.getMore);
 app.post('/getFriend', user.getFriend);
+app.get('/getFriendAbout/:id', user.getFriendAbout);
+
 app.get('/autocomplete.json', search.getAutocompleteJSON);
 app.post('/updateQueue', user.updateQueue);
 app.post('/updateSwipes', user.updateSwipe);
@@ -91,8 +95,6 @@ app.post('/updateSwipes', user.updateSwipe);
 app.post('/saveFriends', user.addFriends);
 app.post('/saveUser', user.saveUser);
 
-//app.post('/savePhotos/:id', photo.addPhotos);
-//app.get('/getPhotos/:id', photo.getPhotos);
 
 // Create server
 http.createServer(app).listen(app.get('port'), function(){

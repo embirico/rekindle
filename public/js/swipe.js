@@ -27,9 +27,10 @@ function addModalListener() {
 		var friendID = $(this).parents(".swipe-card").data("id");
 		console.log(friendID);
   		e.preventDefault();
-  		console.log("clicked!");
+  		// console.log("clicked!");
   		$('#modal').modal('toggle');
   		getPhotos(friendID);
+  		getAbout(friendID);
   	});
 }
 

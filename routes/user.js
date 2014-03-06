@@ -278,7 +278,22 @@ exports.getFriend = function(req, res) {
   }
 }
 
+exports.getFriendAbout = function(req, res){
+  userID = req.cookies.userID;
+  // var form_data = req.body;
+  var friendID = req.params.id;
 
+  models.Friend
+  .find({"owner_id": userID, "id": friendID})
+  .exec(afterQuery);
+
+  function afterQuery(err, info) { // this is a callback
+    if(err) {console.log(err); res.send(500); }
+    res.send(info);
+    // console.log(info);
+  }
+  
+}
 /*
 Calls the callback with the JSON array of friends to swipe
 */
