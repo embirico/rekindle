@@ -8,7 +8,7 @@
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : true  // parse XFBML
     });
-
+ 
     // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
     // for any authentication related change, such as login, logout or session refresh. This means that
     // whenever someone who was previously logged out tries to log in again, the correct case below
@@ -34,6 +34,7 @@
         FB.login(function(response){
       
         }, {scope: 'friends_location, friends_status, friends_birthday, friends_photos, xmpp_login, friends_location'});
+
       } else {
         // In this case, the person is not logged into Facebook, so we call the login()
         // function to prompt them to do so. Note that at this stage there is no indication
@@ -120,22 +121,26 @@
 
 </script>
 
-<!--
-  Below we include the Login Button social plugin. This button uses the JavaScript SDK to
-  present a graphical Login button that triggers the FB.login() function when clicked. -->
 
-<link rel="stylesheet" href="/css/custom-login.css">
+<!-- Actual page content starts here -->
+
+<style type="text/css">
+  body { background-image: url('/images/splash_background.jpg'); }
+</style>
 
 <div class="container">
   <div class="row">
     <div class="col-xs-12 centered-content">
 
-      <img src="/images/login.png" style="width: 200px; padding-top: 30px">
+      <img class="login-logo" src="/images/login.png">
 
-      <h4 style="padding-top: 220px; color: white; font-weight: bold; text-shadow: 0 3px 4px #111111;">Login with Facebook so that we can help you keep in touch with your friends.</h4>
+      <h4 class="login-prompt">
+        Login with Facebook so that we can help you keep in touch with your friends.
+      </h4>
 
-      <div style="padding-top: 15px;">
-        <div class="fb-login-button" scope="publish_actions,publish_stream" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
+      <div class="login-btn">
+        <div class="fb-login-button" scope='friends_location, friends_status, friends_birthday, friends_photos, xmpp_login, friends_location' data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
+
       </div>
 
     </div>
