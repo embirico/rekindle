@@ -24,6 +24,7 @@ var isAlternateView;
 */
 function addModalListener() {
 	$(".show-modal").click(function(e){
+		heap.track('ViewModal');
 		var friendID = $(this).parents(".swipe-card").data("id");
 		console.log(friendID);
   		e.preventDefault();
@@ -96,6 +97,8 @@ function initializePage() {
 
 // Function to call when shake occurs
 function shakeEventDidOccur () {
+
+	heap.track('Shake!');
 
 	if(addedToRemoved) {
 		if (confirm("Undo swipe left?")) {
@@ -190,6 +193,9 @@ function fullLeft() {
 	removedFromStack = false;
 
 	time_interval = setInterval(loadNewCard, 100);
+
+	heap.track('SwipeLeft');
+
 }
 
 
@@ -221,6 +227,9 @@ function fullRight() {
 	removedFromStack = false;
 
 	time_interval = setInterval(loadNewCard, 100);
+
+	heap.track('SwipeRight');
+
 }
 
 // Using the queueJSON array, rebuilts the queue HTML
@@ -286,6 +295,9 @@ function initializeQueueLinks() {
 
 		// Move back to full page view
 		$("#queueIndicator").click();
+
+		heap.track('ClickFriendInQueue');
+
 	});
 
 	// Initialize delete from queue links
@@ -310,6 +322,8 @@ function initializeQueueLinks() {
 		removedFromStack = true;
 
 	  	renderQueue();
+
+	  	heap.track('DeleteFriendFromQueue');
 
 		// Push this action to the server via AJAX
 		$.post('/updateQueue', {action: "delete", id: personObject.id}, function(data) {

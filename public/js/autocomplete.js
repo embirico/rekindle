@@ -29,6 +29,7 @@ $(document).ready(function () {
 	});
 
 	$("#search-input").on("typeahead:closed", function(object, data) {
+		heap.track('UseAutocomplete');
 		console.log("closed");
 		console.log($("#search-input").typeahead('val'));
 		$.each(autocompleteJSON, function(index, friend) {

@@ -17,6 +17,7 @@ $(document).ready(function () {
 
   // Toggle function for left side
   $(TOGGLER_LEFT).click(function (e) {
+    heap.track('ToggleMenu');
     var leftSidebarOpen = $(this).hasClass(SLIDE_ACTIVE);
     setLeftSidebarTo(! leftSidebarOpen);
   });
@@ -24,6 +25,7 @@ $(document).ready(function () {
 
   // Toggle function for right slide
   $(TOGGLER_RIGHT).click(function (e) {
+    heap.track('ToggleQueue');
     var rightSidebarOpen = $(this).hasClass(SLIDE_ACTIVE);
     setRightSidebarTo(! rightSidebarOpen);
   })

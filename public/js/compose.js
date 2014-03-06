@@ -15,6 +15,8 @@ var activateComposeViewHandler = function(e) {
 		return // already in compose view
 	}
 
+	heap.track('viewCompose');
+
 	textarea.addClass('compose-active');
 	originalPlaceholderText = textarea.attr('placeholder');
 	textarea.attr('placeholder', textarea.attr('compose-mode-placeholder'));
@@ -67,46 +69,43 @@ var deactivateComposeViewHandler = function(e) {
 var sendHandler = function(e) {
 	e.preventDefault();
 
-	// Send the message
-
-	alert("Your message has been sent. You can view it in Facebook Messenger");
-
 	// Deactive compose mode
-
 	var topTextArea = $('.top-card textarea');
 	var message = topTextArea.val();
 	topTextArea.val('');
 	deactivateComposeViewHandler(null);
 
-	// Update server and client data
-
 	// Remove this card from candidatesJSON array
 	var swipedCard;
 	var swipedIndex = -1;
 	$.each(candidatesJSON, function(index, candidate) {
-    if(candidate.id == currentCard.attr("data-id")) {
-    	swipedCard = candidate;
-    	swipedIndex = index;
-    }
-  });
-	candidatesJSON.splice(swipedIndex,1);
-	removedJSON.unshift(swipedCard);
+    	if(candidate.id == currentCard.attr("data-id")) {
+    		swipedCard = candidate;
+    		swipedIndex = index;
+    	}
+  	});
 
-	// Push this action to the server via AJAX
-	$.post('/updateSwipes', {
-		action: "sendMessage",
-		id: swipedCard.id,
-		message: message
-	}, function(data) {
-    console.log("sendMessage sent to server");
-  });
+  	if(swipedIndex >= 0) {
+  		heap.track('SendMessage');
+  		alert("Your message has been sent. You can view it in Facebook Messenger");
+		candidatesJSON.splice(swipedIndex,1);
+		removedJSON.unshift(swipedCard);
 
+		// Push this action to the server via AJAX
+		$.post('/updateSwipes', {
+			action: "sendMessage",
+			id: swipedCard.id,
+			message: message
+		}, function(data) {
+	    	console.log("sendMessage sent to server");
+  		});
 
-	addedToQueue = false;
-	addedToStack = false;
-	addedToRemoved = true;
+		addedToQueue = false;
+		addedToStack = false;
+		addedToRemoved = true;
+		removedFromStack = false;
 
-	// Get new card
-
-	time_interval = setInterval(loadNewCard, 100);
+		// Get new card
+		time_interval = setInterval(loadNewCard, 50);
+  	}
 }

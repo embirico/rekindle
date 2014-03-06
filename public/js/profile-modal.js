@@ -1,7 +1,6 @@
 'use strict';
 // var user = require('./user');
 
-
 $(document).ready(function() {
 
   $(".back").click(function(e){
@@ -61,6 +60,8 @@ function getAbout(friendID){
 
     var statusQuery = "SELECT message FROM status WHERE uid="+friendID+" ORDER BY time DESC LIMIT 1";
 
+    $('#friend-status').html("");
+    $('#friend-relationship').html("");
     FB.api({
         method: "fql.query",
         query: statusQuery 
