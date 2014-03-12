@@ -17,6 +17,7 @@ var search = require('./routes/search');
 var help = require('./routes/help');
 var settings = require('./routes/settings');
 var login = require('./routes/login');
+var tour = require('./routes/tour');
 var logout = require('./routes/logout');
 var user = require('./routes/user');
 var photo = require('./routes/photo');
@@ -63,7 +64,6 @@ app.use(lessMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -78,12 +78,11 @@ app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
 app.get('/login', login.view);
+app.get('/tour', tour.view);
 app.get('/logout', logout.view);
 
 app.get('/terms', terms.terms);
 app.get('/privacy-policy', terms.privacy)
-
-// app.get('/getAbout', photo.getAbout);
 
 // Ajax URLs
 app.post('/getSwipes', swipes.getMore);
