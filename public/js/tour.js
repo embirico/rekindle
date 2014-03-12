@@ -52,6 +52,7 @@ $(document).ready(function() {
 		if(index == tourJSON.length-1) {
 			window.location = "/login";
 		} else  {
+			$(window).scrollTop(0);
 			index = index + 1;
 			var backgroundImage =  tourJSON[index].imageURL;
 			var buttonImage = tourJSON[index].buttonURL;
