@@ -70,7 +70,7 @@
     {
       text:"Loading your friends details...",
       progress:"30",
-      timeOut:"4000"
+      timeOut:"3000"
     },
     {
       text:"Checking which friends you haven't spoken to in a while...",
@@ -103,8 +103,8 @@
     } else {
       $(".progress-bar").css("width",progressJSON[progressIndex].progress+"%");
       $(".loading-text").text(progressJSON[progressIndex].text);
-      setTimeout(showLoader,progressJSON[progressIndex].timeOut);
       progressIndex = progressIndex + 1;
+      setTimeout(showLoader,progressJSON[progressIndex].timeOut);
     }
   }
 

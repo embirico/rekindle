@@ -39,6 +39,7 @@ exports.saveUser = function(req, res) {
     //console.log(user);
     //console.log(user.length);
     if(user.length == 0) {
+      // This is a new user
       // Set session
       res.cookie('userID', parseInt(id));
 
@@ -54,9 +55,19 @@ exports.saveUser = function(req, res) {
         res.send(200);
       }
     } else {
-      // Set session
-      res.cookie('userID', parseInt(id));
-      res.send(200);
+      // User already exists, but update their Facebook auth token
+      var conditions = { "id" : id }
+        , update = { "authToken": authToken }
+        , options = { multi: true };
+
+      models.User.update(conditions, update, options, afterUpdating);
+      function afterUpdating(err) { // this is a callback
+        if(err) {console.log(err); res.send(500); }
+        console.log("Updated AuthToken");
+        // Set session
+        res.cookie('userID', parseInt(id));
+        res.send(200);
+      }
     }
   }
 }
