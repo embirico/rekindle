@@ -48,6 +48,12 @@ $(document).ready(function() {
 	$("body").css("background-image",'url('+backgroundImage+')');
 	$("#tour-nav").find("img").attr('src', buttonImage);
 
+	// Preload images
+	for(var i = 0; i < tourJSON.length; i++) {
+		var img = new Image();
+    	img.src = tourJSON[i].imageURL;
+ 	}
+
 	$("#tour-nav").on("click", function() {
 		if(index == tourJSON.length-1) {
 			window.location = "/login";

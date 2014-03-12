@@ -35,28 +35,16 @@ exports.view = function(req, res){
       console.log( queuedFriends[i].last_name_char);
     }
 
-    var isAlternateView = false;
-    if(userID % 2 == 0) {
-      isAlternateView = false;
-    } else {
-      isAlternateView = true;
-      console.log("Showing alternate view");
-    }
-
     // Render the page
     res.render('index', {
       title: 'Rekindle',
       queue_string: JSON.stringify(queuedFriends),
       candidates_string: JSON.stringify(swipeFriends),
       showQueueButton: true,
-      numberSwipeCards: numberSwipeCards,
-      isAlternateView: isAlternateView
+      numberSwipeCards: numberSwipeCards
     });
-
   });
-
 };
-
 
 // Code copied from exports.view.
 // Only difference is that we render with alternateViewOnFacebook = true

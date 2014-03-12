@@ -22,6 +22,7 @@ var logout = require('./routes/logout');
 var user = require('./routes/user');
 var photo = require('./routes/photo');
 var terms = require('./routes/terms');
+var load = require('./routes/load');
 
 // Ajax routes
 var swipes = require('./routes/get_more_swipes.js');
@@ -78,6 +79,7 @@ app.get('/help', help.view);
 app.get('/settings', settings.view);
 app.get('/search', search.view);
 app.get('/login', login.view);
+app.get('/load', load.view);
 app.get('/tour', tour.view);
 app.get('/logout', logout.view);
 

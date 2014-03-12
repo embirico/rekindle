@@ -20,7 +20,15 @@
         // The response object is returned with a status field that lets the app know the current
         // login status of the person. In this case, we're handling the situation where they
         // have logged in to the app.
-        saveUserData(response.authResponse.accessToken);
+
+        // If they have a logged in session already here before
+        if (document.cookie.indexOf("userID") >= 0) {
+          window.location.href = '/'; // Go straight to homepage
+        }
+        else {
+          window.location.href = '/load'; // Go to load data page
+        }
+
         // TODO: response.redirect('www.google.com');
       } else if (response.status === 'not_authorized') {
         // In this case, the person is logged into Facebook, but not into the app, so we call
@@ -57,51 +65,7 @@
    ref.parentNode.insertBefore(js, ref);
   }(document));
 
-  // Here we run a very simple test of the Graph API after login is successful.
-  // This testAPI() function is only called in those cases.
-  function saveUserData(authToken) {
-    console.log(authToken);
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-
-      // Based on their Facebook ID, group person into A or B
-      var abTestBucket = '';
-      if(response.id%2 == 0) {
-        abTestBucket = "original";
-      } else {
-        abTestBucket = "alternate";
-      }
-
-      heap.identify({
-              name: response.name,
-              id: response.id,
-              abTestBucket: abTestBucket
-            });
-
-      console.log('Good to see you, ' + response.name + '.');
-      $.post('/saveUser', {id: response.id, name: response.name, authToken: authToken}, function(data) {
-        addFriendsList();
-      });
-    });
-    // response.redirect('www.google.com');
-  }
-
-  function addFriendsList(){
-    console.log('Adding friends list to json file');
-    //do adding friends here
-     FB.api('/me/friends?fields=id,first_name,last_name,picture.type(large),location,birthday,link', function(response){
-      //for each
-
-      $.post('/saveFriends', {friends: response}, function(data) {
-        // addFriendsPhotos(response.data);
-        window.location.href = '/'; // reload the page
-      });
-    });
-  }
-
-
 </script>
-
 
 <!-- Actual page content starts here -->
 

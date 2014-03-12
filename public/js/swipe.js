@@ -83,8 +83,7 @@ function initializePage() {
           	}
           }
         },
-        threshold: minThresh,
-        allowPageScroll: "vertical"
+        threshold: minThresh
       });
 
   	window.addEventListener('shake', shakeEventDidOccur, false);
